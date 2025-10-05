@@ -7,10 +7,11 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class Main extends Application {
-
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/cs151/spartantrack/view/MainView.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(
+            Main.class.getResource("/cs151/spartantrack/view/MainView.fxml")
+        );
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("SpartanTrack - Student Management");
         stage.setScene(scene);
