@@ -6,13 +6,11 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.Optional;
 
 public class ProgrammingLanguagesController {
@@ -20,7 +18,10 @@ public class ProgrammingLanguagesController {
     private TextField languageNameField;
 
     @FXML
-    private ListView<String> existingLanguagesList;
+    private TableView<ProgrammingLanguage> languagesTableView;
+
+    @FXML
+    private TableColumn<ProgrammingLanguage, String> nameColumn;
 
     @FXML
     private Button addLanguageButton;
@@ -42,7 +43,14 @@ public class ProgrammingLanguagesController {
         languages.add(new ProgrammingLanguage("C++"));
         languages.add(new ProgrammingLanguage("JavaScript"));
 
-        updateListView();
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("languageName"));
+
+        languagesTableView.setItems(languages);
+
+        nameColumn.setSortType(TableColumn.SortType.ASCENDING);
+        languagesTableView.getSortOrder().add(nameColumn);
+
+        languagesTableView.sort();
     }
 
     @FXML
@@ -74,7 +82,7 @@ public class ProgrammingLanguagesController {
         // Create and add new language
         ProgrammingLanguage newLanguage = new ProgrammingLanguage(languageName);
         languages.add(newLanguage);
-        updateListView();
+        languages.sort(Comparator.comparing(ProgrammingLanguage::getLanguageName, String.CASE_INSENSITIVE_ORDER));
         languageNameField.clear();
 
         showAlert(
@@ -86,9 +94,9 @@ public class ProgrammingLanguagesController {
 
     @FXML
     protected void onEditLanguageClick() {
-        int selectedIndex = existingLanguagesList.getSelectionModel().getSelectedIndex();
+        ProgrammingLanguage selectedLanguage = languagesTableView.getSelectionModel().getSelectedItem();
 
-        if (selectedIndex < 0) {
+        if (selectedLanguage == null) {
             showAlert(
                     Alert.AlertType.ERROR,
                     "Selection Error",
@@ -96,8 +104,6 @@ public class ProgrammingLanguagesController {
             );
             return;
         }
-
-        ProgrammingLanguage selectedLanguage = languages.get(selectedIndex);
 
         TextInputDialog dialog = new TextInputDialog(selectedLanguage.getLanguageName());
         dialog.setTitle("Edit Programming Language");
@@ -108,7 +114,8 @@ public class ProgrammingLanguagesController {
         result.ifPresent(newName -> {
             if (!newName.trim().isEmpty()) {
                 selectedLanguage.setLanguageName(newName.trim());
-                updateListView();
+                languages.sort(Comparator.comparing(ProgrammingLanguage::getLanguageName, String.CASE_INSENSITIVE_ORDER));
+
                 showAlert(
                         Alert.AlertType.INFORMATION,
                         "Success",
@@ -120,38 +127,27 @@ public class ProgrammingLanguagesController {
 
     @FXML
     protected void onDeleteLanguageClick() {
-        int selectedIndex = existingLanguagesList.getSelectionModel().getSelectedIndex();
+        ProgrammingLanguage selectedLanguage = languagesTableView.getSelectionModel().getSelectedItem();
 
-        if (selectedIndex < 0) {
-            showAlert(
-                    Alert.AlertType.ERROR,
-                    "Selection Error",
+        if (selectedLanguage == null) {
+            showAlert(Alert.AlertType.ERROR, "Selection Error",
                     "Please select a language to delete"
             );
             return;
         }
 
-        ProgrammingLanguage removed = languages.remove(selectedIndex);
-        updateListView();
+        languages.remove(selectedLanguage);
 
         showAlert(
                 Alert.AlertType.INFORMATION,
                 "Success",
-                removed.getLanguageName() + " deleted successfully!"
+                selectedLanguage.getLanguageName() + " deleted successfully!"
         );
     }
 
     @FXML
     protected void onBackClick() {
         navigateToHome();
-    }
-
-    private void updateListView() {
-        ObservableList<String> languageNames = FXCollections.observableArrayList();
-        for (ProgrammingLanguage lang : languages) {
-            languageNames.add(lang.getLanguageName());
-        }
-        existingLanguagesList.setItems(languageNames);
     }
 
     private void navigateToHome() {
