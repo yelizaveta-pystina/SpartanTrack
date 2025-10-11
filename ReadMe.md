@@ -10,8 +10,15 @@
 
 # Any other instruction that users need to know:
 
+Prerequisites:
+Maven
+Intellij 
+mySQL (for database)
 
 
+Troubleshooting-- 
+Error: No configured target data sources - 
 
+make sure data source is added in Database window and it has been selected under Target data source in configuration
 
 
