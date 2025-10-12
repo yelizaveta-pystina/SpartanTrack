@@ -27,11 +27,13 @@ how to use application:
 
 1. Download the zipped project
 2. Unzip project, open in Intellij
-3. run from project from Main Class
-4. When the popup screen comes up, click Manage Languages
-5. Enter a programming language and press add Language
-6. open SpartanTrackDataBase.sql in mySQL, press run
-7. OR through INTELLIJ, SpartanTrackDataBase.sql is attatched. click on it, and press play
-8. Under Database on right side, find tables --> programming_languages, which will display the languages inputted and save them in the database.
-9. The language will now appear in Data Base table, sorted alphabetically
+3. For the database, make sure to configure data source to database 'spartantrack', user- 'root', password - 'root'
+4. run from project from Main Class
+5. When the popup screen comes up, click Manage Languages
+6. Enter a programming language and press add Language
+7. open SpartanTrackDataBase.sql in mySQL, press run
+8. OR through INTELLIJ, SpartanTrackDataBase.sql is attatched. click on it, and press play
+9. Under Database on right side, find tables --> programming_languages, which will display the languages inputted and save them in the database.
+10. The language will now appear in Data Base table, sorted alphabetically
+
 
