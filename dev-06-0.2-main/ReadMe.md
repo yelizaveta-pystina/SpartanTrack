@@ -182,3 +182,8 @@ Click "Test Connection" → should see green checkmark
 Click OK
 
 Now you can:
+Browse tables in IntelliJ
+Right-click table → View Data
+Run SQL queries directly
+
+
