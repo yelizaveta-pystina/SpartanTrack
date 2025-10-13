@@ -1,94 +1,96 @@
 # Name of application: SpartanTrack
-# Version: 0.2
+# Version: 0.3
 
 # who did what:
-1. Liza Pystina- file cleaning, Main, MainController, debugging
-2. Troy Quach- Main, MainController, debugging
-3. Troy Paulus Asia-  Main, MainController, debugging
+1. Liza Pystina- file cleaning, debugging, database setup
+2. Troy Quach- file cleaning, debugging, 
+3. Troy Paulus Asia-  file cleaning, debugging 
 
 
 
 # Any other instruction that users need to know:
 
-Prequisites: mySQL, (mySQL workbench recommended), Java 17 or higher Initial Prerequisite Setup 
-
-Step 1: Verify Java is Installed 
-Open Terminal/Command Prompt and type: bashjava -version 
-Should see: java version "17" or higher 
-
+Prequisites: mySQL, (mySQL workbench recommended), Java 17 or higher
+  **Initial Prerequisite Setup** 
+Step 1: Verify Java is Installed
+Open Terminal/Command Prompt and type:
+bashjava -version
+Should see: java version "17" or higher
 If not installed:
-Download from: https://www.oracle.com/java/technologies/downloads/ Install and restart terminal
 
-Step 2: Verify Maven is Installed In Terminal, type: bashmvn -version Should see: Apache Maven 3.x.x If not installed: Mac: bashbrew install maven Windows:
+Download from: https://www.oracle.com/java/technologies/downloads/
+Install and restart terminal
 
-Download from: https://maven.apache.org/download.cgi Extract to C:\Program Files\Maven Add to PATH:
 
-Search "Environment Variables" Edit System PATH Add: C:\Program Files\Maven\bin
+Step 2: Verify Maven is Installed
+In Terminal, type:
+bashmvn -version
+Should see: Apache Maven 3.x.x
+If not installed:
+Mac:
+bashbrew install maven
+Windows:
+
+Download from: https://maven.apache.org/download.cgi
+Extract to C:\Program Files\Maven
+Add to PATH:
+
+Search "Environment Variables"
+Edit System PATH
+Add: C:\Program Files\Maven\bin
+
 
 Restart terminal and test: mvn -version
 
-Step 3: Verify MySQL is Installed In Terminal, type: bashmysql --version Should see: mysql Ver 8.0.x If not installed: Mac: bashbrew install mysql brew services start mysql Windows:
 
-Download MySQL Installer: https://dev.mysql.com/downloads/installer/ Run installer Choose "Developer Default" Set root password to: root (or remember your password) Complete installation
+Step 3: Verify MySQL is Installed
+In Terminal, type:
+bashmysql --version
+Should see: mysql Ver 8.0.x
+If not installed:
+Mac:
+bashbrew install mysql
+brew services start mysql
+Windows:
 
+Download MySQL Installer: https://dev.mysql.com/downloads/installer/
+Run installer
+Choose "Developer Default"
+Set root password to: root (or remember your password)
+Complete installation
+
+**How to Run Application:**
+IN INTELLIJ
 How to Run Application:
 
-Download your project zip file
+1. Download your project zip file
 
-Extract to a location like: Mac: /Users/yourname/Documents/dev-06-0.2-main Windows: C:\Users\yourname\Documents\dev-06-0.2-main
+2. Unzip the project.
 
-Open Terminal and navigate there: bash cd /path/to/dev-06-0.2-main
+IN INTELLIJ:
+3. Open Intellij, select open project, select 'Open'
+find file dev-06-03 in its path
+such as 
+/Users/lizapystina/Documents/dev-0.6-0.3, press ok.
+4. Make sure SDK is defined within Intellij if not already-- select latest Zulu
+5. Next, where it says "Current File" on top click the arrow next to it, and press Edit Configurations. 
+6. Press "Add New" , select Maven, 
 
-Configure Maven Maven configuration is in pom.xml to verify: In Terminal, type: bashmvn clean install This--> Downloads JavaFX libraries Downloads MySQL Connector Compiles your Java code
+name: SpartanTrack
+Run command: clean javafx:run
+working directory: select dev-06-0.3, press OK, then press Apply and the blue "OK"
 
-should see: [INFO] BUILD SUCCESS Maven is now configured!
-
-MySQL Database Setup Start MySQL Server Mac: bashbrew services start mysql OR bashsudo /usr/local/mysql/support-files/mysql.server start
-Windows: Press Win + R Type: services.msc Find "MySQL80" Right-click → Start
-
-Verify mySQL is running: bashmysql -u root -p Enter password: root If you see mysql> prompt, it's working! Type exit; to leave.
-
-Create Database Using SQL Script Make sure you're in the project directory: bashcd /path/to/dev-06-0.2-main Run the setup script: bashmysql -u root -p < SpartanTrackDatabase.sql Enter password: root What this does:
-Creates database called spartantrack Creates table called programming_languages Shows confirmation messages
-
-Database is now set up!
-
-Verify Database Was Created Method A: MySQL Workbench
-Open MySQL Workbench Click on Local instance 3306 Enter password: root In query window, type:
-
-USE spartantrack; SHOW TABLES;
-
-Click lightning bolt to run You should then see programming_languages table
-
-Method B: Command Line bashmysql -u root -p Enter password: root sqlUSE spartantrack; SHOW TABLES; DESCRIBE programming_languages; SELECT * FROM programming_languages; exit; Database is now verified.
-
-8: Configure Database Credentials (If Needed)
-
-Default settings work with the provided SQL setup script. user = 'root', password = 'root'
-
-If your MySQL has different credentials, you can change them:
-
-Open: src/main/resources/database.properties
-
-Edit the values:
-
-   database.username=your_mysql_username
-   database.password=your_mysql_password
-
-**9. Running the Application**
-
-Run with Maven
-In Terminal (in project directory):
-bashmvn clean javafx:run
-
-Maven cleans old compiled files
-Compiles fresh code
-Launches JavaFX application
-Window appears with "SpartanTrack" title
-
-Application is running!
-
-10: Test the Application
+7. Press on SpartanTrackDataBase.sql in the hiearchy. If no Data source is configured to run the SQL, press "Configure data source" on the top
+8. When this opens, press the '+' and select mySQL
+enter
+user: root
+password: root
+database: spartantrack
+9. Go to Main.class--> press play 
+10. Should direct you to a popup screen. Press Manage Languages, Add Language
+Press Apply, then the blue "OK"
+11. TEST:
+Test the Application
 In the application window:
 
 Click "Manage Languages" button
@@ -96,14 +98,15 @@ Click "Manage Languages" button
 New window opens: "Program Language Management"
 
 
-To add a language:
+Add a language:
+
 Type "Java" in text field
 Click "Add Language"
 See success message
 "Java" will appear in table
 
 
-To add more languages:
+Add more languages:
 for example, 
 Add "Python"
 Add "C++"
@@ -111,7 +114,8 @@ Add "JavaScript"
 All appear sorted alphabetically
 
 
-To test Edit:
+Test Edit:
+
 Click on "Java" to select it
 Click "Edit Selected"
 Change to "Java SE"
@@ -119,15 +123,15 @@ Click OK
 Name updates in table
 
 
-To test Delete:
+Test Delete:
+
 Click on a language
 Click "Delete Selected"
 Language will disappear
 
 
 
-
-11.  Verify Database Storage
+12.  Verify Database Storage
 
 Check Database Has Your Data
 Keep application running, open MySQL Workbench:
@@ -150,18 +154,20 @@ Example output:
 | 4           | Python        |
  Data is in database. 
 
-12. Test Persistence of Data
+13. Test Persistence of Data
 This proves permanent storage works:
 
 Close the JavaFX application (click X)
-In Terminal, run again:
+In Terminal, run :
 
 bash   mvn clean javafx:run
-
+ OR
+ press play again, languages previosuly entered will remain
+ 
 Click "Manage Languages"
 All your languages should still be there! 
 
-13.Can view Database in IntelliJ
+14. Can view Database in IntelliJ
 
 Configure IntelliJ Database Tool
 If using IntelliJ IDEA:
@@ -182,8 +188,25 @@ Click "Test Connection" → should see green checkmark
 Click OK
 
 Now you can:
+
 Browse tables in IntelliJ
 Right-click table → View Data
 Run SQL queries directly
 
+
+
+TROUBLESHOOT:
+Configure Database Credentials (If Needed)
+
+**Default settings work with the provided SQL setup script.**
+user = 'root', password = 'root'
+
+If your MySQL has different credentials, you can change them:
+
+1. **Open:** `src/main/resources/database.properties`
+
+2. **Edit the values:**
+```properties
+   database.username=your_mysql_username
+   database.password=your_mysql_password
 
