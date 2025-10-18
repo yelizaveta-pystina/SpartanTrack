@@ -1,0 +1,7 @@
+# Database Configuration for SpartanTrack
+# Edit these values to match your MySQL setup
+
+database.url=jdbc:mysql://localhost:3306/spartantrack
+database.username=root
+database.password=root
+database.driver=com.mysql.cj.jdbc.Driver
