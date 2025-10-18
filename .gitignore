@@ -1,0 +1,20 @@
+```
+# Compiled class files
+*.class
+target/
+*.jar
+*.war
+*.ear
+
+# IntelliJ IDEA files
+.idea/
+*.iml
+*.iws
+out/
+
+# MacOS
+.DS_Store
+
+# Data files (optional - remove this line if you want to include data)
+data
+
