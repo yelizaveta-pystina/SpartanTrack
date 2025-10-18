@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>cs151</groupId>
-    <artifactId>HelloWorld</artifactId>
+    <artifactId>SpartanTrackFinal</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>HelloWorld</name>
+    <name>SpartanTrack</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -35,6 +35,12 @@
                     <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <!-- Added Gson for JSON file handling -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.11.0</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

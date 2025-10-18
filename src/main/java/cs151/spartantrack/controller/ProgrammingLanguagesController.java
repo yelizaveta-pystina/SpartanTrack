@@ -1,6 +1,7 @@
 package cs151.spartantrack.controller;
 
 import cs151.spartantrack.ProgrammingLanguage;
+import cs151.spartantrack.ProgrammingLanguageDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -10,7 +11,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import java.io.IOException;
-import java.util.Comparator;
 import java.util.Optional;
 
 public class ProgrammingLanguagesController {
@@ -29,28 +29,30 @@ public class ProgrammingLanguagesController {
     @FXML
     private Button backButton;
 
-    // Store actual ProgrammingLanguage objects
     private ObservableList<ProgrammingLanguage> languages;
+    private ProgrammingLanguageDAO dao;  // NEW: Database access object
 
     @FXML
     public void initialize() {
-        // Initialize the languages list
-        languages = FXCollections.observableArrayList();
+        // NEW: Initialize DAO
+        dao = new ProgrammingLanguageDAO();
 
-        // Pre-populate with some common languages for demo
-        languages.add(new ProgrammingLanguage("Java"));
-        languages.add(new ProgrammingLanguage("Python"));
-        languages.add(new ProgrammingLanguage("C++"));
-        languages.add(new ProgrammingLanguage("JavaScript"));
-
+        // Set up table column
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("languageName"));
 
-        languagesTableView.setItems(languages);
+        // NEW: Load data from database instead of hardcoded values
+        loadLanguagesFromDatabase();
 
+        // Set up sorting
         nameColumn.setSortType(TableColumn.SortType.ASCENDING);
         languagesTableView.getSortOrder().add(nameColumn);
-
         languagesTableView.sort();
+    }
+
+    // NEW: Load languages from database
+    private void loadLanguagesFromDatabase() {
+        languages = FXCollections.observableArrayList(dao.getAllLanguages());
+        languagesTableView.setItems(languages);
     }
 
     @FXML
@@ -67,29 +69,32 @@ public class ProgrammingLanguagesController {
             return;
         }
 
-        // Check for duplicates (case-insensitive)
-        for (ProgrammingLanguage lang : languages) {
-            if (lang.getLanguageName().equalsIgnoreCase(languageName)) {
-                showAlert(
-                        Alert.AlertType.WARNING,
-                        "Duplicate Entry",
-                        "This programming language already exists"
-                );
-                return;
-            }
+        // NEW: Check for duplicates in database
+        if (dao.languageExists(languageName)) {
+            showAlert(
+                    Alert.AlertType.WARNING,
+                    "Duplicate Entry",
+                    "This programming language already exists"
+            );
+            return;
         }
 
-        // Create and add new language
-        ProgrammingLanguage newLanguage = new ProgrammingLanguage(languageName);
-        languages.add(newLanguage);
-        languages.sort(Comparator.comparing(ProgrammingLanguage::getLanguageName, String.CASE_INSENSITIVE_ORDER));
-        languageNameField.clear();
-
-        showAlert(
-                Alert.AlertType.INFORMATION,
-                "Success",
-                languageName + " added successfully!"
-        );
+        // NEW: Add to database
+        if (dao.addLanguage(languageName)) {
+            languageNameField.clear();
+            loadLanguagesFromDatabase();  // Refresh table from database
+            showAlert(
+                    Alert.AlertType.INFORMATION,
+                    "Success",
+                    languageName + " added successfully!"
+            );
+        } else {
+            showAlert(
+                    Alert.AlertType.ERROR,
+                    "Error",
+                    "Failed to add language to database"
+            );
+        }
     }
 
     @FXML
@@ -113,14 +118,21 @@ public class ProgrammingLanguagesController {
         Optional<String> result = dialog.showAndWait();
         result.ifPresent(newName -> {
             if (!newName.trim().isEmpty()) {
-                selectedLanguage.setLanguageName(newName.trim());
-                languages.sort(Comparator.comparing(ProgrammingLanguage::getLanguageName, String.CASE_INSENSITIVE_ORDER));
-
-                showAlert(
-                        Alert.AlertType.INFORMATION,
-                        "Success",
-                        "Language updated successfully!"
-                );
+                // NEW: Update in database
+                if (dao.updateLanguage(selectedLanguage.getLanguageName(), newName.trim())) {
+                    loadLanguagesFromDatabase();  // Refresh table from database
+                    showAlert(
+                            Alert.AlertType.INFORMATION,
+                            "Success",
+                            "Language updated successfully!"
+                    );
+                } else {
+                    showAlert(
+                            Alert.AlertType.ERROR,
+                            "Error",
+                            "Failed to update language"
+                    );
+                }
             }
         });
     }
@@ -130,19 +142,29 @@ public class ProgrammingLanguagesController {
         ProgrammingLanguage selectedLanguage = languagesTableView.getSelectionModel().getSelectedItem();
 
         if (selectedLanguage == null) {
-            showAlert(Alert.AlertType.ERROR, "Selection Error",
+            showAlert(
+                    Alert.AlertType.ERROR,
+                    "Selection Error",
                     "Please select a language to delete"
             );
             return;
         }
 
-        languages.remove(selectedLanguage);
-
-        showAlert(
-                Alert.AlertType.INFORMATION,
-                "Success",
-                selectedLanguage.getLanguageName() + " deleted successfully!"
-        );
+        // NEW: Delete from database
+        if (dao.deleteLanguage(selectedLanguage.getLanguageName())) {
+            loadLanguagesFromDatabase();  // Refresh table from database
+            showAlert(
+                    Alert.AlertType.INFORMATION,
+                    "Success",
+                    selectedLanguage.getLanguageName() + " deleted successfully!"
+            );
+        } else {
+            showAlert(
+                    Alert.AlertType.ERROR,
+                    "Error",
+                    "Failed to delete language"
+            );
+        }
     }
 
     @FXML
