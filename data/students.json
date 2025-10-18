@@ -1,0 +1,29 @@
+[
+  {
+    "fullName": "Liza Pystina",
+    "academicStatus": "Senior",
+    "isEmployed": true,
+    "jobDetails": "Test Engineer",
+    "programmingLanguages": [
+      "Java"
+    ]
+  },
+  {
+    "fullName": "Joe Smith",
+    "academicStatus": "Sophomore",
+    "isEmployed": false,
+    "jobDetails": "",
+    "programmingLanguages": [
+      "Rust"
+    ]
+  },
+  {
+    "fullName": "Sarah Wilson",
+    "academicStatus": "Graduate",
+    "isEmployed": true,
+    "jobDetails": "Sotware Engineer",
+    "programmingLanguages": [
+      "C#"
+    ]
+  }
+]
