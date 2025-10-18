@@ -30,26 +30,21 @@ public class ProgrammingLanguagesController {
     private Button backButton;
 
     private ObservableList<ProgrammingLanguage> languages;
-    private ProgrammingLanguageDAO dao;  // NEW: Database access object
+    private ProgrammingLanguageDAO dao;
 
     @FXML
     public void initialize() {
-        // NEW: Initialize DAO
         dao = new ProgrammingLanguageDAO();
 
-        // Set up table column
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("languageName"));
 
-        // NEW: Load data from database instead of hardcoded values
         loadLanguagesFromDatabase();
 
-        // Set up sorting
         nameColumn.setSortType(TableColumn.SortType.ASCENDING);
         languagesTableView.getSortOrder().add(nameColumn);
         languagesTableView.sort();
     }
 
-    // NEW: Load languages from database
     private void loadLanguagesFromDatabase() {
         languages = FXCollections.observableArrayList(dao.getAllLanguages());
         languagesTableView.setItems(languages);
@@ -59,7 +54,6 @@ public class ProgrammingLanguagesController {
     protected void onAddLanguageClick() {
         String languageName = languageNameField.getText().trim();
 
-        // Validation: Check if field is empty
         if (languageName.isEmpty()) {
             showAlert(
                     Alert.AlertType.ERROR,
@@ -69,7 +63,6 @@ public class ProgrammingLanguagesController {
             return;
         }
 
-        // NEW: Check for duplicates in database
         if (dao.languageExists(languageName)) {
             showAlert(
                     Alert.AlertType.WARNING,
@@ -79,7 +72,6 @@ public class ProgrammingLanguagesController {
             return;
         }
 
-        // NEW: Add to database
         if (dao.addLanguage(languageName)) {
             languageNameField.clear();
             loadLanguagesFromDatabase();  // Refresh table from database
@@ -150,7 +142,6 @@ public class ProgrammingLanguagesController {
             return;
         }
 
-        // NEW: Delete from database
         if (dao.deleteLanguage(selectedLanguage.getLanguageName())) {
             loadLanguagesFromDatabase();  // Refresh table from database
             showAlert(

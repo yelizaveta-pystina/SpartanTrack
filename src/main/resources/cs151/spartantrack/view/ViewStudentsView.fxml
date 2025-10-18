@@ -20,11 +20,11 @@
     <VBox spacing="10.0">
         <TableView fx:id="studentsTableView" prefHeight="400.0">
             <columns>
-                <TableColumn fx:id="firstNameColumn" text="First Name" prefWidth="120"/>
-                <TableColumn fx:id="lastNameColumn" text="Last Name" prefWidth="120"/>
-                <TableColumn fx:id="emailColumn" text="Email" prefWidth="200"/>
-                <TableColumn fx:id="majorColumn" text="Major" prefWidth="150"/>
-                <TableColumn fx:id="languagesColumn" text="Programming Languages" prefWidth="250"/>
+                <TableColumn fx:id="fullNameColumn" text="Full Name" prefWidth="180"/>
+                <TableColumn fx:id="academicStatusColumn" text="Academic Status" prefWidth="120"/>
+                <TableColumn fx:id="employmentColumn" text="Employment" prefWidth="120"/>
+                <TableColumn fx:id="jobDetailsColumn" text="Job Details" prefWidth="200"/>
+                <TableColumn fx:id="languagesColumn" text="Programming Languages" prefWidth="220"/>
             </columns>
         </TableView>
 

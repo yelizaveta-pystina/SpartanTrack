@@ -4,7 +4,9 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.SelectionMode?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
@@ -19,44 +21,57 @@
     <Label text="Create Student Profile"
            style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #0055A2;"/>
 
-    <!-- First Name -->
+    <!-- Full Name -->
     <VBox spacing="5.0">
-        <Label text="First Name: *"
+        <Label text="Full Name: *"
                style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
-        <TextField fx:id="firstNameField"
-                   promptText="Enter first name (required)"
+        <TextField fx:id="fullNameField"
+                   promptText="Enter full name (required)"
                    prefWidth="400.0"
                    style="-fx-font-size: 13px;"/>
     </VBox>
 
-    <!-- Last Name -->
+    <!-- Academic Status -->
     <VBox spacing="5.0">
-        <Label text="Last Name: *"
+        <Label text="Academic Status: *"
                style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
-        <TextField fx:id="lastNameField"
-                   promptText="Enter last name (required)"
-                   prefWidth="400.0"
-                   style="-fx-font-size: 13px;"/>
+        <ComboBox fx:id="academicStatusComboBox"
+                  promptText="Select academic status (required)"
+                  prefWidth="400.0"
+                  style="-fx-font-size: 13px;"/>
     </VBox>
 
-    <!-- Email -->
+    <!-- Current Job Status -->
     <VBox spacing="5.0">
-        <Label text="Email: *"
+        <Label text="Current Job Status: *"
                style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
-        <TextField fx:id="emailField"
-                   promptText="Enter email address (required)"
-                   prefWidth="400.0"
-                   style="-fx-font-size: 13px;"/>
+        <HBox spacing="20.0">
+            <RadioButton fx:id="employedRadio"
+                         text="Employed"
+                         style="-fx-font-size: 13px;">
+                <toggleGroup>
+                    <ToggleGroup fx:id="employmentGroup"/>
+                </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="notEmployedRadio"
+                         text="Not Employed"
+                         toggleGroup="$employmentGroup"
+                         selected="true"
+                         style="-fx-font-size: 13px;"/>
+        </HBox>
     </VBox>
 
-    <!-- Major -->
+    <!-- Job Details -->
     <VBox spacing="5.0">
-        <Label text="Major: *"
+        <Label text="Job Details:"
                style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
-        <TextField fx:id="majorField"
-                   promptText="Enter major (required)"
+        <Label text="(Required if employed)"
+               style="-fx-font-size: 11px; -fx-text-fill: #666;"/>
+        <TextField fx:id="jobDetailsField"
+                   promptText="Enter job details (e.g., Software Engineer at ABC Company)"
                    prefWidth="400.0"
-                   style="-fx-font-size: 13px;"/>
+                   style="-fx-font-size: 13px;"
+                   disable="true"/>
     </VBox>
 
     <!-- Programming Languages (Multiple Select) -->
@@ -91,7 +106,7 @@
                 style="-fx-background-color: #E5A823; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10px 20px;"/>
 
         <Button fx:id="backButton"
-                text="← Back to Home"
+                text="Back to Home"
                 onAction="#onBackClick"
                 style="-fx-background-color: #666; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10px 20px;"/>
     </HBox>

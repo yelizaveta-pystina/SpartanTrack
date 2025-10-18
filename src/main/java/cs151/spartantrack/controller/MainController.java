@@ -31,43 +31,33 @@ public class MainController {
 
     @FXML
     public void initialize() {
-        // Any initialization logic can go here
     }
 
-    /**
-     * Handle Manage Languages button click
-     */
+
     @FXML
     private void onManageLanguagesClick() {
         navigateToView(LANGUAGES_VIEW_PATH, "SpartanTrack - Manage Programming Languages");
     }
 
-    /**
-     * Handle Create Student Profile button click
-     */
+
     @FXML
     private void onCreateProfileClick() {
         navigateToView(STUDENT_PROFILE_VIEW_PATH, "SpartanTrack - Create Student Profile");
     }
 
-    /**
-     * Handle View All Students button click
-     */
+
     @FXML
     private void onViewStudentsClick() {
         navigateToView(VIEW_STUDENTS_PATH, "SpartanTrack - View All Students");
     }
 
-    /**
-     * Navigate to a different view
-     */
+
     private void navigateToView(String fxmlPath, String title) {
         try {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource(fxmlPath));
             Parent root = loader.load();
             Scene scene = new Scene(root);
 
-            // Use viewStudentsButton as fallback if manageLanguagesButton is null
             Button sourceButton = manageLanguagesButton != null ? manageLanguagesButton :
                     (createProfileButton != null ? createProfileButton : viewStudentsButton);
             Stage stage = (Stage) sourceButton.getScene().getWindow();

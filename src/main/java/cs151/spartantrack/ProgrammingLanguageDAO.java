@@ -44,7 +44,6 @@ public class ProgrammingLanguageDAO {
                 }
             }
 
-            // Sort alphabetically
             languages.sort(Comparator.comparing(l -> l.getLanguageName().toLowerCase()));
 
         } catch (IOException e) {
@@ -59,7 +58,6 @@ public class ProgrammingLanguageDAO {
         try {
             List<String> existingLanguages = readLanguageNames();
 
-            // Check if language already exists (case-insensitive)
             for (String lang : existingLanguages) {
                 if (lang.equalsIgnoreCase(languageName)) {
                     System.err.println("Error adding language: Language already exists");
@@ -67,10 +65,8 @@ public class ProgrammingLanguageDAO {
                 }
             }
 
-            // Add new language
             existingLanguages.add(languageName);
 
-            // Write back to file
             writeLanguageNames(existingLanguages);
             return true;
 
@@ -85,7 +81,6 @@ public class ProgrammingLanguageDAO {
             List<String> existingLanguages = readLanguageNames();
             boolean found = false;
 
-            // Find and update the language
             for (int i = 0; i < existingLanguages.size(); i++) {
                 if (existingLanguages.get(i).equalsIgnoreCase(oldName)) {
                     existingLanguages.set(i, newName);
@@ -99,7 +94,6 @@ public class ProgrammingLanguageDAO {
                 return false;
             }
 
-            // Write back to file
             writeLanguageNames(existingLanguages);
             return true;
 
@@ -114,7 +108,6 @@ public class ProgrammingLanguageDAO {
             List<String> existingLanguages = readLanguageNames();
             boolean removed = false;
 
-            // Remove the language (case-insensitive)
             for (int i = 0; i < existingLanguages.size(); i++) {
                 if (existingLanguages.get(i).equalsIgnoreCase(languageName)) {
                     existingLanguages.remove(i);
@@ -128,7 +121,6 @@ public class ProgrammingLanguageDAO {
                 return false;
             }
 
-            // Write back to file
             writeLanguageNames(existingLanguages);
             return true;
 
@@ -156,7 +148,6 @@ public class ProgrammingLanguageDAO {
         }
     }
 
-    // Helper method to read language names from file
     private List<String> readLanguageNames() throws IOException {
         List<String> languages = new ArrayList<>();
 
@@ -172,14 +163,12 @@ public class ProgrammingLanguageDAO {
         return languages;
     }
 
-    // Helper method to write language names to file
     private void writeLanguageNames(List<String> languages) throws IOException {
         try (FileWriter writer = new FileWriter(file)) {
             gson.toJson(languages, writer);
         }
     }
 
-    // Helper method to read file content as string
     private String readFile() throws IOException {
         try (FileReader reader = new FileReader(file)) {
             StringBuilder content = new StringBuilder();

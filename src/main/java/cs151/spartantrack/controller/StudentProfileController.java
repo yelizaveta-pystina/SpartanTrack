@@ -11,10 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -24,16 +21,22 @@ import java.util.List;
 public class StudentProfileController {
 
     @FXML
-    private TextField firstNameField;
+    private TextField fullNameField;
 
     @FXML
-    private TextField lastNameField;
+    private ComboBox<String> academicStatusComboBox;
 
     @FXML
-    private TextField emailField;
+    private RadioButton employedRadio;
 
     @FXML
-    private TextField majorField;
+    private RadioButton notEmployedRadio;
+
+    @FXML
+    private ToggleGroup employmentGroup;
+
+    @FXML
+    private TextField jobDetailsField;
 
     @FXML
     private ListView<String> languagesListView;
@@ -55,15 +58,24 @@ public class StudentProfileController {
 
     @FXML
     public void initialize() {
+        ObservableList<String> academicStatuses = FXCollections.observableArrayList(
+                "Freshman", "Sophomore", "Junior", "Senior", "Graduate"
+        );
+        academicStatusComboBox.setItems(academicStatuses);
+
         loadProgrammingLanguages();
 
-        // Enable multiple selection
-        languagesListView.getSelectionModel().setSelectionMode(javafx.scene.control.SelectionMode.MULTIPLE);
+        languagesListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+        employedRadio.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            jobDetailsField.setDisable(!newValue);
+            if (!newValue) {
+                jobDetailsField.clear();
+            }
+        });
     }
 
-    /**
-     * Load programming languages dynamically from the database
-     */
+
     private void loadProgrammingLanguages() {
         try {
             List<ProgrammingLanguage> languages = languageDAO.getAllLanguages();
@@ -75,7 +87,6 @@ public class StudentProfileController {
 
             languagesListView.setItems(languageNames);
 
-            // Show message if no languages available
             if (languageNames.isEmpty()) {
                 statusLabel.setText("No programming languages available. Please add languages first.");
                 statusLabel.setStyle("-fx-text-fill: #E5A823; -fx-font-weight: bold;");
@@ -88,98 +99,77 @@ public class StudentProfileController {
         }
     }
 
-    /**
-     * Handle save button click
-     */
+
     @FXML
     private void onSaveStudentClick() {
-        // Clear previous status message
-        statusLabel.setText("");
+        try {
+            statusLabel.setText("");
 
-        // Get form values
-        String firstName = firstNameField.getText().trim();
-        String lastName = lastNameField.getText().trim();
-        String email = emailField.getText().trim();
-        String major = majorField.getText().trim();
-        List<String> selectedLanguages = new ArrayList<>(languagesListView.getSelectionModel().getSelectedItems());
+            String fullName = fullNameField.getText().trim();
+            String academicStatus = academicStatusComboBox.getValue();
+            boolean isEmployed = employedRadio.isSelected();
+            String jobDetails = jobDetailsField.getText().trim();
+            List<String> selectedLanguages = new ArrayList<>(languagesListView.getSelectionModel().getSelectedItems());
 
-        // Validate required fields
-        if (firstName.isEmpty()) {
-            showError("First name is required.");
-            firstNameField.requestFocus();
-            return;
-        }
+            if (fullName.isEmpty()) {
+                showError("Full name is required.");
+                fullNameField.requestFocus();
+                return;
+            }
 
-        if (lastName.isEmpty()) {
-            showError("Last name is required.");
-            lastNameField.requestFocus();
-            return;
-        }
+            if (academicStatus == null || academicStatus.isEmpty()) {
+                showError("Academic status is required.");
+                academicStatusComboBox.requestFocus();
+                return;
+            }
 
-        if (email.isEmpty()) {
-            showError("Email is required.");
-            emailField.requestFocus();
-            return;
-        }
+            if (isEmployed && jobDetails.isEmpty()) {
+                showError("Job details are required when employment status is 'Employed'.");
+                jobDetailsField.requestFocus();
+                return;
+            }
 
-        if (major.isEmpty()) {
-            showError("Major is required.");
-            majorField.requestFocus();
-            return;
-        }
+            Student newStudent = new Student(fullName, academicStatus, isEmployed, jobDetails, selectedLanguages);
 
-        // Create student object
-        Student newStudent = new Student(firstName, lastName, email, major, selectedLanguages);
+            if (studentDAO.studentExists(fullName)) {
+                showError("A student with this name already exists.");
+                fullNameField.requestFocus();
+                return;
+            }
 
-        // Validate email format
-        if (!newStudent.validateEmail()) {
-            showError("Invalid email format. Please enter a valid email address.");
-            emailField.requestFocus();
-            return;
-        }
+            boolean success = studentDAO.addStudent(newStudent);
 
-        // Check if email already exists
-        if (studentDAO.studentExists(email)) {
-            showError("A student with this email already exists.");
-            emailField.requestFocus();
-            return;
-        }
-
-        // Save student to database
-        boolean success = studentDAO.addStudent(newStudent);
-
-        if (success) {
-            showSuccess("Student profile saved successfully!");
-            clearForm();
-        } else {
-            showError("Failed to save student profile. Please try again.");
+            if (success) {
+                showSuccess("Student profile saved successfully!");
+                clearForm();
+            } else {
+                showError("Failed to save student profile. Please try again.");
+            }
+        } catch (Exception e) {
+            showError("Error saving student: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
-    /**
-     * Handle clear form button click
-     */
+
     @FXML
     private void onClearFormClick() {
         clearForm();
         statusLabel.setText("");
     }
 
-    /**
-     * Clear all form fields
-     */
+
     private void clearForm() {
-        firstNameField.clear();
-        lastNameField.clear();
-        emailField.clear();
-        majorField.clear();
+        fullNameField.clear();
+        academicStatusComboBox.setValue(null);
+        notEmployedRadio.setSelected(true);
+        jobDetailsField.clear();
+        jobDetailsField.setDisable(true);
         languagesListView.getSelectionModel().clearSelection();
-        firstNameField.requestFocus();
+        fullNameField.requestFocus();
     }
 
-    /**
-     * Handle back button click
-     */
+
     @FXML
     private void onBackClick() {
         try {
@@ -199,17 +189,13 @@ public class StudentProfileController {
         }
     }
 
-    /**
-     * Show error message
-     */
+
     private void showError(String message) {
         statusLabel.setText(message);
         statusLabel.setStyle("-fx-text-fill: #CC0000; -fx-font-weight: bold;");
     }
 
-    /**
-     * Show success message
-     */
+
     private void showSuccess(String message) {
         statusLabel.setText(message);
         statusLabel.setStyle("-fx-text-fill: #00AA00; -fx-font-weight: bold;");

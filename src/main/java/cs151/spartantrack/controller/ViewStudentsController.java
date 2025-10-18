@@ -29,16 +29,16 @@ public class ViewStudentsController {
     private TableView<Student> studentsTableView;
 
     @FXML
-    private TableColumn<Student, String> firstNameColumn;
+    private TableColumn<Student, String> fullNameColumn;
 
     @FXML
-    private TableColumn<Student, String> lastNameColumn;
+    private TableColumn<Student, String> academicStatusColumn;
 
     @FXML
-    private TableColumn<Student, String> emailColumn;
+    private TableColumn<Student, String> employmentColumn;
 
     @FXML
-    private TableColumn<Student, String> majorColumn;
+    private TableColumn<Student, String> jobDetailsColumn;
 
     @FXML
     private TableColumn<Student, String> languagesColumn;
@@ -63,25 +63,21 @@ public class ViewStudentsController {
 
     @FXML
     public void initialize() {
-        // Set up table columns
-        firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-        lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
-        emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
-        majorColumn.setCellValueFactory(new PropertyValueFactory<>("major"));
+        fullNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
+        academicStatusColumn.setCellValueFactory(new PropertyValueFactory<>("academicStatus"));
+        employmentColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getEmploymentStatus())
+        );
+        jobDetailsColumn.setCellValueFactory(new PropertyValueFactory<>("jobDetails"));
 
-        // Custom cell value factory for programming languages (display as comma-separated string)
         languagesColumn.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getProgrammingLanguagesString())
         );
 
-        // Load students
         loadStudents();
     }
 
-    /**
-     * Load all students from database and display in table
-     * Students are sorted alphabetically (A to Z, case insensitive) by the DAO
-     */
+
     private void loadStudents() {
         try {
             List<Student> students = studentDAO.getAllStudents();
@@ -89,10 +85,8 @@ public class ViewStudentsController {
             studentList.addAll(students);
             studentsTableView.setItems(studentList);
 
-            // Update student count
             studentCountLabel.setText("Total Students: " + students.size());
 
-            // Show message if no students
             if (students.isEmpty()) {
                 statusLabel.setText("No student profiles found. Create a profile to get started.");
                 statusLabel.setStyle("-fx-text-fill: #666; -fx-font-weight: normal;");
@@ -106,9 +100,7 @@ public class ViewStudentsController {
         }
     }
 
-    /**
-     * Handle refresh button click
-     */
+
     @FXML
     private void onRefreshClick() {
         loadStudents();
@@ -127,7 +119,6 @@ public class ViewStudentsController {
             return;
         }
 
-        // Confirmation dialog
         Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
         confirmAlert.setTitle("Delete Student");
         confirmAlert.setHeaderText("Delete " + selectedStudent.getFullName() + "?");
@@ -135,8 +126,7 @@ public class ViewStudentsController {
 
         Optional<ButtonType> result = confirmAlert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            // Delete student
-            boolean success = studentDAO.deleteStudent(selectedStudent.getEmail());
+            boolean success = studentDAO.deleteStudent(selectedStudent.getFullName());
 
             if (success) {
                 showSuccess("Student profile deleted successfully.");
@@ -147,9 +137,7 @@ public class ViewStudentsController {
         }
     }
 
-    /**
-     * Handle back button click
-     */
+
     @FXML
     private void onBackClick() {
         try {
@@ -169,17 +157,12 @@ public class ViewStudentsController {
         }
     }
 
-    /**
-     * Show error message
-     */
     private void showError(String message) {
         statusLabel.setText(message);
         statusLabel.setStyle("-fx-text-fill: #CC0000; -fx-font-weight: bold;");
     }
 
-    /**
-     * Show success message
-     */
+
     private void showSuccess(String message) {
         statusLabel.setText(message);
         statusLabel.setStyle("-fx-text-fill: #00AA00; -fx-font-weight: bold;");

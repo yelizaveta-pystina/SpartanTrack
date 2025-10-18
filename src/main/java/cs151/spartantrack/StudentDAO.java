@@ -17,39 +17,39 @@ public class StudentDAO {
     private final Type listType = new TypeToken<List<StudentData>>() {}.getType();
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-    // Inner class for JSON serialization
     private static class StudentData {
-        String firstName;
-        String lastName;
-        String email;
-        String major;
+        String fullName;
+        String academicStatus;
+        boolean isEmployed;
+        String jobDetails;
         List<String> programmingLanguages;
 
         StudentData(Student student) {
-            this.firstName = student.getFirstName();
-            this.lastName = student.getLastName();
-            this.email = student.getEmail();
-            this.major = student.getMajor();
+            this.fullName = student.getFullName();
+            this.academicStatus = student.getAcademicStatus();
+            this.isEmployed = student.isEmployed();
+            this.jobDetails = student.getJobDetails();
             this.programmingLanguages = student.getProgrammingLanguages();
         }
 
         Student toStudent() {
-            return new Student(firstName, lastName, email, major, programmingLanguages);
+            String safeName = fullName != null ? fullName : "";
+            String safeStatus = academicStatus != null ? academicStatus : "Freshman";
+            String safeJobDetails = jobDetails != null ? jobDetails : "";
+            List<String> safeLanguages = programmingLanguages != null ? programmingLanguages : new ArrayList<>();
+
+            return new Student(safeName, safeStatus, isEmployed, safeJobDetails, safeLanguages);
         }
     }
 
     public StudentDAO() {
-        // Ensure data directory exists
         File dataDir = new File("data");
         if (!dataDir.exists()) {
             dataDir.mkdirs();
         }
     }
 
-    /**
-     * Get all students from the database
-     * Returns students sorted alphabetically by last name, then first name (case-insensitive)
-     */
+
     public List<Student> getAllStudents() {
         List<Student> students = new ArrayList<>();
 
@@ -70,10 +70,7 @@ public class StudentDAO {
                 }
             }
 
-            // Sort alphabetically by last name, then first name (case-insensitive, A to Z)
-            students.sort(Comparator
-                    .comparing((Student s) -> s.getLastName().toLowerCase())
-                    .thenComparing(s -> s.getFirstName().toLowerCase()));
+            students.sort(Comparator.comparing(s -> s.getFullName().toLowerCase()));
 
         } catch (IOException e) {
             System.err.println("Error loading students: " + e.getMessage());
@@ -83,12 +80,9 @@ public class StudentDAO {
         return students;
     }
 
-    /**
-     * Add a new student to the database
-     */
+
     public boolean addStudent(Student student) {
         try {
-            // Validate student data
             if (!student.isValid()) {
                 System.err.println("Error adding student: Invalid student data");
                 return false;
@@ -96,18 +90,15 @@ public class StudentDAO {
 
             List<StudentData> existingStudents = readStudentData();
 
-            // Check if student with same email already exists
             for (StudentData data : existingStudents) {
-                if (data.email.equalsIgnoreCase(student.getEmail())) {
-                    System.err.println("Error adding student: Email already exists");
+                if (data.fullName.equalsIgnoreCase(student.getFullName())) {
+                    System.err.println("Error adding student: Student with this name already exists");
                     return false;
                 }
             }
 
-            // Add new student
             existingStudents.add(new StudentData(student));
 
-            // Write back to file
             writeStudentData(existingStudents);
             return true;
 
@@ -118,17 +109,14 @@ public class StudentDAO {
         }
     }
 
-    /**
-     * Update an existing student
-     */
-    public boolean updateStudent(String email, Student updatedStudent) {
+
+    public boolean updateStudent(String fullName, Student updatedStudent) {
         try {
             List<StudentData> existingStudents = readStudentData();
             boolean found = false;
 
-            // Find and update the student by email
             for (int i = 0; i < existingStudents.size(); i++) {
-                if (existingStudents.get(i).email.equalsIgnoreCase(email)) {
+                if (existingStudents.get(i).fullName.equalsIgnoreCase(fullName)) {
                     existingStudents.set(i, new StudentData(updatedStudent));
                     found = true;
                     break;
@@ -140,7 +128,6 @@ public class StudentDAO {
                 return false;
             }
 
-            // Write back to file
             writeStudentData(existingStudents);
             return true;
 
@@ -151,17 +138,14 @@ public class StudentDAO {
         }
     }
 
-    /**
-     * Delete a student by email
-     */
-    public boolean deleteStudent(String email) {
+
+    public boolean deleteStudent(String fullName) {
         try {
             List<StudentData> existingStudents = readStudentData();
             boolean removed = false;
 
-            // Remove the student with matching email (case-insensitive)
             for (int i = 0; i < existingStudents.size(); i++) {
-                if (existingStudents.get(i).email.equalsIgnoreCase(email)) {
+                if (existingStudents.get(i).fullName.equalsIgnoreCase(fullName)) {
                     existingStudents.remove(i);
                     removed = true;
                     break;
@@ -173,7 +157,6 @@ public class StudentDAO {
                 return false;
             }
 
-            // Write back to file
             writeStudentData(existingStudents);
             return true;
 
@@ -184,15 +167,13 @@ public class StudentDAO {
         }
     }
 
-    /**
-     * Check if a student with given email exists
-     */
-    public boolean studentExists(String email) {
+
+    public boolean studentExists(String fullName) {
         try {
             List<StudentData> existingStudents = readStudentData();
 
             for (StudentData data : existingStudents) {
-                if (data.email.equalsIgnoreCase(email)) {
+                if (data.fullName.equalsIgnoreCase(fullName)) {
                     return true;
                 }
             }
@@ -205,15 +186,13 @@ public class StudentDAO {
         }
     }
 
-    /**
-     * Get a student by email
-     */
-    public Student getStudentByEmail(String email) {
+
+    public Student getStudentByName(String fullName) {
         try {
             List<StudentData> existingStudents = readStudentData();
 
             for (StudentData data : existingStudents) {
-                if (data.email.equalsIgnoreCase(email)) {
+                if (data.fullName.equalsIgnoreCase(fullName)) {
                     return data.toStudent();
                 }
             }
@@ -226,7 +205,6 @@ public class StudentDAO {
         }
     }
 
-    // Helper method to read student data from file
     private List<StudentData> readStudentData() throws IOException {
         List<StudentData> students = new ArrayList<>();
 
@@ -242,14 +220,12 @@ public class StudentDAO {
         return students;
     }
 
-    // Helper method to write student data to file
     private void writeStudentData(List<StudentData> students) throws IOException {
         try (FileWriter writer = new FileWriter(file)) {
             gson.toJson(students, writer);
         }
     }
 
-    // Helper method to read file content as string
     private String readFile() throws IOException {
         try (FileReader reader = new FileReader(file)) {
             StringBuilder content = new StringBuilder();
