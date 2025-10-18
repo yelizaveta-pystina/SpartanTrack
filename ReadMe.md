@@ -22,8 +22,9 @@ A Student Management System built with JavaFX for tracking student profiles and 
 ## How to Run
 1. Extract the zip file to a folder
 2. Open the project in IntelliJ IDEA
-3. Run `Main.java` (located in `src/main/java/cs151/spartantrack/Main.java`)
-4. The application will launch with the home screen
+3. Make sure to configure JDK if not done so already (Zulu 25)
+4. Run `Main.java` (located in `src/main/java/cs151/spartantrack/Main.java`)
+5. The application will launch with the home screen
    
 ## Project Structure
 ```
