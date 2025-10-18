@@ -4,9 +4,9 @@
 A Student Management System built with JavaFX for tracking student profiles and programming language skills.
 
 ## Team Members
-1. Liza Pystina - file cleaning, Main, MainController, debugging
-2. Troy Quach - Main, MainController, debugging  
-3. Troy Paulus Asia - Main, MainController, debugging
+1. Liza Pystina - file cleaning, programming, debugging
+2. Troy Quach - file cleaning, programming, debugging
+3. Troy Paulus Asia - file cleaning, programming, debugging
 
 ## Features
 **Manage Programming Languages**: Add, edit, and delete programming languages
