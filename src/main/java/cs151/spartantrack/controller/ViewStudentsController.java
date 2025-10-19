@@ -10,12 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -25,58 +20,83 @@ import java.util.Optional;
 
 public class ViewStudentsController {
 
-    @FXML
-    private TableView<Student> studentsTableView;
+    @FXML private TableView<Student> studentsTableView;
+    @FXML private TableColumn<Student, String> fullNameColumn;
+    @FXML private TableColumn<Student, String> academicStatusColumn;
+    @FXML private TableColumn<Student, String> employmentColumn;
+    @FXML private TableColumn<Student, String> jobDetailsColumn;
+    @FXML private TableColumn<Student, String> languagesColumn;
+    @FXML private TableColumn<Student, String> databasesColumn;
+    @FXML private TableColumn<Student, String> preferredRoleColumn;
+    @FXML private TableColumn<Student, String> commentsColumn;
+    @FXML private TableColumn<Student, String> serviceFlagColumn;
 
-    @FXML
-    private TableColumn<Student, String> fullNameColumn;
-
-    @FXML
-    private TableColumn<Student, String> academicStatusColumn;
-
-    @FXML
-    private TableColumn<Student, String> employmentColumn;
-
-    @FXML
-    private TableColumn<Student, String> jobDetailsColumn;
-
-    @FXML
-    private TableColumn<Student, String> languagesColumn;
-
-    @FXML
-    private Label studentCountLabel;
-
-    @FXML
-    private Label statusLabel;
-
-    @FXML
-    private Button refreshButton;
-
-    @FXML
-    private Button deleteButton;
-
-    @FXML
-    private Button backButton;
+    @FXML private Label studentCountLabel;
+    @FXML private Label statusLabel;
+    @FXML private Button refreshButton;
+    @FXML private Button deleteButton;
+    @FXML private Button backButton;
 
     private final StudentDAO studentDAO = new StudentDAO();
     private ObservableList<Student> studentList = FXCollections.observableArrayList();
 
     @FXML
     public void initialize() {
+        // Setup table columns
         fullNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
         academicStatusColumn.setCellValueFactory(new PropertyValueFactory<>("academicStatus"));
+
         employmentColumn.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getEmploymentStatus())
         );
+
         jobDetailsColumn.setCellValueFactory(new PropertyValueFactory<>("jobDetails"));
 
         languagesColumn.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getProgrammingLanguagesString())
         );
 
+        databasesColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getDatabasesKnownString())
+        );
+
+        preferredRoleColumn.setCellValueFactory(new PropertyValueFactory<>("preferredRole"));
+
+        commentsColumn.setCellValueFactory(new PropertyValueFactory<>("comments"));
+
+        serviceFlagColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getServiceFlagStatus())
+        );
+
+        // Make columns wrap text
+        setupColumnWrapping();
+
         loadStudents();
     }
 
+    private void setupColumnWrapping() {
+        jobDetailsColumn.setCellFactory(tc -> {
+            TableCell<Student, String> cell = new TableCell<>();
+            Label label = new Label();
+            label.setWrapText(true);
+            label.setPrefWidth(180);
+            cell.setGraphic(label);
+            cell.setPrefHeight(Control.USE_COMPUTED_SIZE);
+            label.textProperty().bind(cell.itemProperty());
+            return cell;
+        });
+
+        commentsColumn.setCellFactory(tc -> {
+            TableCell<Student, String> cell = new TableCell<>();
+            Label label = new Label();
+            label.setWrapText(true);
+            label.setPrefWidth(200);
+            cell.setGraphic(label);
+            cell.setPrefHeight(Control.USE_COMPUTED_SIZE);
+            label.textProperty().bind(cell.itemProperty());
+            return cell;
+        });
+    }
 
     private void loadStudents() {
         try {
@@ -100,16 +120,12 @@ public class ViewStudentsController {
         }
     }
 
-
     @FXML
     private void onRefreshClick() {
         loadStudents();
         showSuccess("Student list refreshed.");
     }
 
-    /**
-     * Handle delete button click
-     */
     @FXML
     private void onDeleteClick() {
         Student selectedStudent = studentsTableView.getSelectionModel().getSelectedItem();
@@ -130,13 +146,12 @@ public class ViewStudentsController {
 
             if (success) {
                 showSuccess("Student profile deleted successfully.");
-                loadStudents(); // Reload table
+                loadStudents();
             } else {
                 showError("Failed to delete student profile.");
             }
         }
     }
-
 
     @FXML
     private void onBackClick() {
@@ -161,7 +176,6 @@ public class ViewStudentsController {
         statusLabel.setText(message);
         statusLabel.setStyle("-fx-text-fill: #CC0000; -fx-font-weight: bold;");
     }
-
 
     private void showSuccess(String message) {
         statusLabel.setText(message);

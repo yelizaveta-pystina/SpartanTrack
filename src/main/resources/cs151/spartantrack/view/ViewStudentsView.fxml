@@ -1,43 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<VBox spacing="20.0" xmlns:fx="http://javafx.com/fxml" fx:controller="cs151.spartantrack.controller.ViewStudentsController" style="-fx-background-color: #f5f5f5;">
+<VBox spacing="20.0"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="cs151.spartantrack.controller.ViewStudentsController"
+      style="-fx-background-color: #f5f5f5;">
     <padding>
         <Insets bottom="30.0" left="30.0" right="30.0" top="30.0"/>
     </padding>
 
-    <Label text="View All Student Profiles" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #0055A2;"/>
+    <Label text="View All Student Profiles"
+           style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #0055A2;"/>
 
-    <Label text="All students sorted alphabetically (A to Z, case insensitive)" style="-fx-font-size: 12px; -fx-text-fill: #666; -fx-font-style: italic;"/>
+    <Label text="All students sorted alphabetically (A to Z, case insensitive)"
+           style="-fx-font-size: 12px; -fx-text-fill: #666; -fx-font-style: italic;"/>
 
-    <VBox spacing="10.0">
-        <TableView fx:id="studentsTableView" prefHeight="400.0">
+    <VBox spacing="10.0" VBox.vgrow="ALWAYS">
+        <TableView fx:id="studentsTableView"
+                   VBox.vgrow="ALWAYS"
+                   style="-fx-font-size: 12px;">
             <columns>
-                <TableColumn fx:id="fullNameColumn" text="Full Name" prefWidth="180"/>
-                <TableColumn fx:id="academicStatusColumn" text="Academic Status" prefWidth="120"/>
-                <TableColumn fx:id="employmentColumn" text="Employment" prefWidth="120"/>
-                <TableColumn fx:id="jobDetailsColumn" text="Job Details" prefWidth="200"/>
-                <TableColumn fx:id="languagesColumn" text="Programming Languages" prefWidth="220"/>
+                <TableColumn fx:id="fullNameColumn" text="Full Name" prefWidth="150" minWidth="120"/>
+                <TableColumn fx:id="academicStatusColumn" text="Academic Status" prefWidth="120" minWidth="100"/>
+                <TableColumn fx:id="employmentColumn" text="Employment" prefWidth="110" minWidth="100"/>
+                <TableColumn fx:id="jobDetailsColumn" text="Job Details" prefWidth="180" minWidth="150"/>
+                <TableColumn fx:id="languagesColumn" text="Programming Languages" prefWidth="180" minWidth="150"/>
+                <TableColumn fx:id="databasesColumn" text="Databases Known" prefWidth="150" minWidth="120"/>
+                <TableColumn fx:id="preferredRoleColumn" text="Preferred Role" prefWidth="150" minWidth="120"/>
+                <TableColumn fx:id="commentsColumn" text="Comments" prefWidth="200" minWidth="150"/>
+                <TableColumn fx:id="serviceFlagColumn" text="Service Flag" prefWidth="120" minWidth="100"/>
             </columns>
         </TableView>
 
-        <Label fx:id="studentCountLabel" text="Total Students: 0" style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #0055A2;"/>
+        <Label fx:id="studentCountLabel"
+               text="Total Students: 0"
+               style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #0055A2;"/>
     </VBox>
 
     <HBox spacing="10.0">
-        <Button fx:id="refreshButton" text="Refresh" onAction="#onRefreshClick" style="-fx-background-color: #0055A2; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10px 20px;"/>
+        <Button fx:id="refreshButton"
+                text="Refresh"
+                onAction="#onRefreshClick"
+                style="-fx-background-color: #0055A2; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10px 20px;"/>
 
-        <Button fx:id="deleteButton" text="Delete Selected" onAction="#onDeleteClick" style="-fx-background-color: #CC0000; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10px 20px;"/>
+        <Button fx:id="deleteButton"
+                text="Delete Selected"
+                onAction="#onDeleteClick"
+                style="-fx-background-color: #CC0000; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10px 20px;"/>
 
-        <Button fx:id="backButton" text="Back to Home" onAction="#onBackClick" style="-fx-background-color: #666; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10px 20px;"/>
+        <Button fx:id="backButton"
+                text="Back to Home"
+                onAction="#onBackClick"
+                style="-fx-background-color: #666; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10px 20px;"/>
     </HBox>
 
-    <Label fx:id="statusLabel" text="" style="-fx-font-size: 13px; -fx-text-fill: #CC0000; -fx-font-weight: bold;"/>
+    <Label fx:id="statusLabel"
+           text=""
+           style="-fx-font-size: 13px; -fx-text-fill: #CC0000; -fx-font-weight: bold;"/>
 </VBox>

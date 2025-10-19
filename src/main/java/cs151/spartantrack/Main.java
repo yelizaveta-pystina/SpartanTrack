@@ -13,8 +13,17 @@ public class Main extends Application {
                 Main.class.getResource("/cs151/spartantrack/view/MainView.fxml")
         );
         Scene scene = new Scene(fxmlLoader.load());
+
         stage.setTitle("SpartanTrack - Student Management");
         stage.setScene(scene);
+
+        // Maximize the window to cover the whole screen
+        stage.setMaximized(true);
+
+        // Optional: Set minimum size so window can't be made too small
+        stage.setMinWidth(1024);
+        stage.setMinHeight(768);
+
         stage.show();
     }
 

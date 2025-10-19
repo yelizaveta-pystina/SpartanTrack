@@ -23,6 +23,11 @@ public class StudentDAO {
         boolean isEmployed;
         String jobDetails;
         List<String> programmingLanguages;
+        List<String> databasesKnown;
+        String preferredRole;
+        String comments;
+        boolean isWhitelisted;
+        boolean isBlacklisted;
 
         StudentData(Student student) {
             this.fullName = student.getFullName();
@@ -30,6 +35,11 @@ public class StudentDAO {
             this.isEmployed = student.isEmployed();
             this.jobDetails = student.getJobDetails();
             this.programmingLanguages = student.getProgrammingLanguages();
+            this.databasesKnown = student.getDatabasesKnown();
+            this.preferredRole = student.getPreferredRole();
+            this.comments = student.getComments();
+            this.isWhitelisted = student.isWhitelisted();
+            this.isBlacklisted = student.isBlacklisted();
         }
 
         Student toStudent() {
@@ -37,8 +47,12 @@ public class StudentDAO {
             String safeStatus = academicStatus != null ? academicStatus : "Freshman";
             String safeJobDetails = jobDetails != null ? jobDetails : "";
             List<String> safeLanguages = programmingLanguages != null ? programmingLanguages : new ArrayList<>();
+            List<String> safeDatabases = databasesKnown != null ? databasesKnown : new ArrayList<>();
+            String safeRole = preferredRole != null ? preferredRole : "";
+            String safeComments = comments != null ? comments : "";
 
-            return new Student(safeName, safeStatus, isEmployed, safeJobDetails, safeLanguages);
+            return new Student(safeName, safeStatus, isEmployed, safeJobDetails, safeLanguages,
+                    safeDatabases, safeRole, safeComments, isWhitelisted, isBlacklisted);
         }
     }
 
@@ -48,7 +62,6 @@ public class StudentDAO {
             dataDir.mkdirs();
         }
     }
-
 
     public List<Student> getAllStudents() {
         List<Student> students = new ArrayList<>();
@@ -80,7 +93,6 @@ public class StudentDAO {
         return students;
     }
 
-
     public boolean addStudent(Student student) {
         try {
             if (!student.isValid()) {
@@ -98,7 +110,6 @@ public class StudentDAO {
             }
 
             existingStudents.add(new StudentData(student));
-
             writeStudentData(existingStudents);
             return true;
 
@@ -108,7 +119,6 @@ public class StudentDAO {
             return false;
         }
     }
-
 
     public boolean updateStudent(String fullName, Student updatedStudent) {
         try {
@@ -138,7 +148,6 @@ public class StudentDAO {
         }
     }
 
-
     public boolean deleteStudent(String fullName) {
         try {
             List<StudentData> existingStudents = readStudentData();
@@ -167,7 +176,6 @@ public class StudentDAO {
         }
     }
 
-
     public boolean studentExists(String fullName) {
         try {
             List<StudentData> existingStudents = readStudentData();
@@ -185,7 +193,6 @@ public class StudentDAO {
             return false;
         }
     }
-
 
     public Student getStudentByName(String fullName) {
         try {

@@ -1,117 +1,170 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<VBox spacing="20.0"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="cs151.spartantrack.controller.StudentProfileController"
-      style="-fx-background-color: #f5f5f5;">
-    <padding>
-        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0"/>
-    </padding>
+<ScrollPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="cs151.spartantrack.controller.StudentProfileController"
+            style="-fx-background-color: #f5f5f5;"
+            fitToWidth="true">
+    <VBox spacing="20.0" style="-fx-background-color: #f5f5f5;">
+        <padding>
+            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0"/>
+        </padding>
 
-    <Label text="Create Student Profile"
-           style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #0055A2;"/>
+        <!-- Title -->
+        <Label text="Student Profile - Add/Edit"
+               style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #0055A2;"/>
 
-    <!-- Full Name -->
-    <VBox spacing="5.0">
-        <Label text="Full Name: *"
-               style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
-        <TextField fx:id="fullNameField"
-                   promptText="Enter full name (required)"
-                   prefWidth="400.0"
-                   style="-fx-font-size: 13px;"/>
-    </VBox>
+        <!-- Basic Information Section -->
+        <VBox spacing="15.0" style="-fx-background-color: white; -fx-padding: 20; -fx-border-color: #ddd; -fx-border-radius: 5; -fx-background-radius: 5;">
+            <Label text="Basic Information"
+                   style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #0055A2;"/>
 
-    <!-- Academic Status -->
-    <VBox spacing="5.0">
-        <Label text="Academic Status: *"
-               style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
-        <ComboBox fx:id="academicStatusComboBox"
-                  promptText="Select academic status (required)"
-                  prefWidth="400.0"
-                  style="-fx-font-size: 13px;"/>
-    </VBox>
+            <!-- Full Name -->
+            <VBox spacing="5.0">
+                <Label text="Full Name *" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+                <TextField fx:id="fullNameField"
+                           promptText="Enter full name"
+                           prefWidth="400.0"
+                           style="-fx-font-size: 13px;"/>
+            </VBox>
 
-    <!-- Current Job Status -->
-    <VBox spacing="5.0">
-        <Label text="Current Job Status: *"
-               style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
-        <HBox spacing="20.0">
-            <RadioButton fx:id="employedRadio"
-                         text="Employed"
-                         style="-fx-font-size: 13px;">
-                <toggleGroup>
-                    <ToggleGroup fx:id="employmentGroup"/>
-                </toggleGroup>
-            </RadioButton>
-            <RadioButton fx:id="notEmployedRadio"
-                         text="Not Employed"
-                         toggleGroup="$employmentGroup"
-                         selected="true"
-                         style="-fx-font-size: 13px;"/>
+            <!-- Academic Status -->
+            <VBox spacing="5.0">
+                <Label text="Academic Status *" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+                <ComboBox fx:id="academicStatusComboBox"
+                          promptText="Select academic status"
+                          prefWidth="400.0"
+                          style="-fx-font-size: 13px;"/>
+            </VBox>
+
+            <!-- Employment Status -->
+            <VBox spacing="5.0">
+                <Label text="Current Job Status *" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+                <HBox spacing="20.0">
+                    <RadioButton fx:id="employedRadio" text="Employed" style="-fx-font-size: 13px;">
+                        <toggleGroup>
+                            <ToggleGroup fx:id="employmentGroup"/>
+                        </toggleGroup>
+                    </RadioButton>
+                    <RadioButton fx:id="notEmployedRadio" text="Not Employed"
+                                 toggleGroup="$employmentGroup" selected="true" style="-fx-font-size: 13px;"/>
+                </HBox>
+            </VBox>
+
+            <!-- Job Details -->
+            <VBox spacing="5.0">
+                <Label text="Job Details" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+                <Label text="(Required if employed)" style="-fx-font-size: 11px; -fx-text-fill: #666;"/>
+                <TextField fx:id="jobDetailsField"
+                           promptText="Enter job title and company"
+                           prefWidth="400.0"
+                           style="-fx-font-size: 13px;"
+                           disable="true"/>
+            </VBox>
+        </VBox>
+
+        <!-- Skills and Interests Section -->
+        <VBox spacing="15.0" style="-fx-background-color: white; -fx-padding: 20; -fx-border-color: #ddd; -fx-border-radius: 5; -fx-background-radius: 5;">
+            <Label text="Skills and Interests"
+                   style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #0055A2;"/>
+
+            <!-- Programming Languages -->
+            <VBox spacing="5.0">
+                <Label text="Programming Languages Known *" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+                <Label text="(Hold Ctrl/Cmd to select multiple)" style="-fx-font-size: 11px; -fx-text-fill: #666;"/>
+                <ListView fx:id="languagesListView"
+                          prefHeight="120.0"
+                          prefWidth="400.0"
+                          style="-fx-font-size: 13px;"/>
+            </VBox>
+
+            <!-- Databases Known -->
+            <VBox spacing="5.0">
+                <Label text="Databases Known *" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+                <Label text="(Hold Ctrl/Cmd to select multiple)" style="-fx-font-size: 11px; -fx-text-fill: #666;"/>
+                <ListView fx:id="databasesListView"
+                          prefHeight="120.0"
+                          prefWidth="400.0"
+                          style="-fx-font-size: 13px;"/>
+            </VBox>
+
+            <!-- Preferred Professional Role -->
+            <VBox spacing="5.0">
+                <Label text="Preferred Professional Role *" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+                <ComboBox fx:id="preferredRoleComboBox"
+                          promptText="Select Preferred Role"
+                          prefWidth="400.0"
+                          style="-fx-font-size: 13px;"/>
+            </VBox>
+        </VBox>
+
+        <!-- Faculty Evaluation Section -->
+        <VBox spacing="15.0" style="-fx-background-color: white; -fx-padding: 20; -fx-border-color: #ddd; -fx-border-radius: 5; -fx-background-radius: 5;">
+            <Label text="Faculty Evaluation"
+                   style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #0055A2;"/>
+
+            <!-- Comments/Journal Entries -->
+            <VBox spacing="5.0">
+                <Label text="Comments/ Journal Entries" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+                <Label text="Enter faculty comments about the student" style="-fx-font-size: 11px; -fx-text-fill: #666;"/>
+                <TextArea fx:id="commentsTextArea"
+                          promptText="Enter faculty comments about the student"
+                          prefRowCount="4"
+                          prefWidth="400.0"
+                          wrapText="true"
+                          style="-fx-font-size: 13px;"/>
+            </VBox>
+        </VBox>
+
+        <!-- Future Services Flags Section -->
+        <VBox spacing="15.0" style="-fx-background-color: white; -fx-padding: 20; -fx-border-color: #ddd; -fx-border-radius: 5; -fx-background-radius: 5;">
+            <Label text="Future Services Flags"
+                   style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #0055A2;"/>
+
+            <HBox spacing="30.0">
+                <CheckBox fx:id="whitelistCheckBox"
+                          text="Whitelist (Eligible for additional support and recommendations)"
+                          style="-fx-font-size: 13px;"/>
+                <CheckBox fx:id="blacklistCheckBox"
+                          text="Blacklist (Not eligible for future services)"
+                          style="-fx-font-size: 13px;"/>
+            </HBox>
+        </VBox>
+
+        <!-- Status Message -->
+        <Label fx:id="statusLabel" text=""
+               style="-fx-font-size: 13px; -fx-text-fill: #CC0000; -fx-font-weight: bold;"/>
+
+        <!-- Action Buttons -->
+        <HBox spacing="10.0">
+            <Button fx:id="saveButton"
+                    text="Save Student Profile"
+                    onAction="#onSaveStudentClick"
+                    prefWidth="180.0"
+                    style="-fx-background-color: #0055A2; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10px 20px;"/>
+
+            <Button fx:id="clearButton"
+                    text="Clear"
+                    onAction="#onClearFormClick"
+                    prefWidth="120.0"
+                    style="-fx-background-color: #E5A823; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10px 20px;"/>
+
+            <Button fx:id="deleteButton"
+                    text="Delete Profile"
+                    onAction="#onDeleteProfileClick"
+                    prefWidth="140.0"
+                    style="-fx-background-color: #CC0000; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10px 20px;"/>
+
+            <Button fx:id="backButton"
+                    text="Back to Home"
+                    onAction="#onBackClick"
+                    style="-fx-background-color: #666; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10px 20px;"/>
         </HBox>
+
+        <!-- Required fields note -->
+        <Label text="* Required fields"
+               style="-fx-font-size: 11px; -fx-text-fill: #666; -fx-font-style: italic;"/>
     </VBox>
-
-    <!-- Job Details -->
-    <VBox spacing="5.0">
-        <Label text="Job Details:"
-               style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
-        <Label text="(Required if employed)"
-               style="-fx-font-size: 11px; -fx-text-fill: #666;"/>
-        <TextField fx:id="jobDetailsField"
-                   promptText="Enter job details (e.g., Software Engineer at ABC Company)"
-                   prefWidth="400.0"
-                   style="-fx-font-size: 13px;"
-                   disable="true"/>
-    </VBox>
-
-    <!-- Programming Languages (Multiple Select) -->
-    <VBox spacing="5.0">
-        <Label text="Programming Languages:"
-               style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
-        <Label text="(Hold Ctrl/Cmd to select multiple)"
-               style="-fx-font-size: 11px; -fx-text-fill: #666;"/>
-        <ListView fx:id="languagesListView"
-                  prefHeight="150.0"
-                  prefWidth="400.0"
-                  style="-fx-font-size: 13px;"/>
-    </VBox>
-
-    <!-- Error/Status Message -->
-    <Label fx:id="statusLabel"
-           text=""
-           style="-fx-font-size: 13px; -fx-text-fill: #CC0000; -fx-font-weight: bold;"/>
-
-    <!-- Buttons -->
-    <HBox spacing="10.0">
-        <Button fx:id="saveButton"
-                text="Save Student Profile"
-                onAction="#onSaveStudentClick"
-                prefWidth="180.0"
-                style="-fx-background-color: #0055A2; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10px 20px;"/>
-
-        <Button fx:id="clearButton"
-                text="Clear Form"
-                onAction="#onClearFormClick"
-                prefWidth="120.0"
-                style="-fx-background-color: #E5A823; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10px 20px;"/>
-
-        <Button fx:id="backButton"
-                text="Back to Home"
-                onAction="#onBackClick"
-                style="-fx-background-color: #666; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10px 20px;"/>
-    </HBox>
-
-    <!-- Required fields note -->
-    <Label text="* Required fields"
-           style="-fx-font-size: 11px; -fx-text-fill: #666; -fx-font-style: italic;"/>
-</VBox>
+</ScrollPane>
