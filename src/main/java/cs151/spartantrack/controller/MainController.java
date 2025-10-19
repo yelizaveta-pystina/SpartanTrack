@@ -33,36 +33,46 @@ public class MainController {
     public void initialize() {
     }
 
-
     @FXML
     private void onManageLanguagesClick() {
         navigateToView(LANGUAGES_VIEW_PATH, "SpartanTrack - Manage Programming Languages");
     }
-
 
     @FXML
     private void onCreateProfileClick() {
         navigateToView(STUDENT_PROFILE_VIEW_PATH, "SpartanTrack - Create Student Profile");
     }
 
-
     @FXML
     private void onViewStudentsClick() {
         navigateToView(VIEW_STUDENTS_PATH, "SpartanTrack - View All Students");
     }
 
-
     private void navigateToView(String fxmlPath, String title) {
         try {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource(fxmlPath));
             Parent root = loader.load();
-            Scene scene = new Scene(root);
 
             Button sourceButton = manageLanguagesButton != null ? manageLanguagesButton :
                     (createProfileButton != null ? createProfileButton : viewStudentsButton);
             Stage stage = (Stage) sourceButton.getScene().getWindow();
+
+            // Get current window state
+            boolean wasMaximized = stage.isMaximized();
+            double currentWidth = stage.getWidth();
+            double currentHeight = stage.getHeight();
+
+            Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setTitle(title);
+
+            // Restore window state
+            if (wasMaximized) {
+                stage.setMaximized(true);
+            } else {
+                stage.setWidth(currentWidth);
+                stage.setHeight(currentHeight);
+            }
 
         } catch (IOException e) {
             System.err.println("Error loading view: " + fxmlPath);

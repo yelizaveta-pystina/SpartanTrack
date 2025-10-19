@@ -160,11 +160,25 @@ public class ViewStudentsController {
                     Main.class.getResource("/cs151/spartantrack/view/MainView.fxml")
             );
             Parent root = loader.load();
-            Scene scene = new Scene(root);
 
             Stage stage = (Stage) backButton.getScene().getWindow();
+
+            // Preserve window state
+            boolean wasMaximized = stage.isMaximized();
+            double currentWidth = stage.getWidth();
+            double currentHeight = stage.getHeight();
+
+            Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setTitle("SpartanTrack - Student Management");
+
+            // Restore window state
+            if (wasMaximized) {
+                stage.setMaximized(true);
+            } else {
+                stage.setWidth(currentWidth);
+                stage.setHeight(currentHeight);
+            }
 
         } catch (IOException e) {
             showError("Error navigating back to home: " + e.getMessage());
