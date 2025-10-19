@@ -1,29 +1,53 @@
 [
   {
+    "fullName": "Sarah Smith",
+    "academicStatus": "Graduate",
+    "isEmployed": true,
+    "jobDetails": "Software Engineer",
+    "programmingLanguages": [
+      "C#",
+      "Java",
+      "Rust"
+    ],
+    "databasesKnown": [
+      "MySQL",
+      "PostgreSQL",
+      "MongoDB",
+      "SQLite"
+    ],
+    "preferredRole": "Full Stack Developer",
+    "comments": "Well versed in many languages and databases",
+    "isWhitelisted": true,
+    "isBlacklisted": false
+  },
+  {
     "fullName": "Liza Pystina",
     "academicStatus": "Senior",
     "isEmployed": true,
     "jobDetails": "Test Engineer",
     "programmingLanguages": [
       "Java"
-    ]
+    ],
+    "databasesKnown": [],
+    "preferredRole": "Security Engineer",
+    "comments": "",
+    "isWhitelisted": true,
+    "isBlacklisted": false
   },
   {
-    "fullName": "Joe Smith",
+    "fullName": "Joe Samson",
     "academicStatus": "Sophomore",
     "isEmployed": false,
     "jobDetails": "",
     "programmingLanguages": [
       "Rust"
-    ]
-  },
-  {
-    "fullName": "Sarah Wilson",
-    "academicStatus": "Graduate",
-    "isEmployed": true,
-    "jobDetails": "Sotware Engineer",
-    "programmingLanguages": [
-      "C#"
-    ]
+    ],
+    "databasesKnown": [
+      "Redis"
+    ],
+    "preferredRole": "Software Engineer",
+    "comments": "",
+    "isWhitelisted": false,
+    "isBlacklisted": true
   }
 ]
