@@ -1,6 +1,8 @@
 package cs151.spartantrack.controller;
 
 import cs151.spartantrack.Main;
+import cs151.spartantrack.ProgrammingLanguage;
+import cs151.spartantrack.ProgrammingLanguageDAO;
 import cs151.spartantrack.Student;
 import cs151.spartantrack.StudentDAO;
 import javafx.beans.property.SimpleStringProperty;
@@ -15,8 +17,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ViewStudentsController {
 
@@ -31,18 +37,34 @@ public class ViewStudentsController {
     @FXML private TableColumn<Student, String> commentsColumn;
     @FXML private TableColumn<Student, String> serviceFlagColumn;
 
+    @FXML private TextField nameSearchField;
+    @FXML private ComboBox<String> academicStatusSearchCombo;
+    @FXML private ComboBox<String> programmingLanguageSearchCombo;
+    @FXML private ComboBox<String> databaseSkillSearchCombo;
+    @FXML private ComboBox<String> professionalRoleSearchCombo;
+
     @FXML private Label studentCountLabel;
     @FXML private Label statusLabel;
+    @FXML private Button searchButton;
+    @FXML private Button clearSearchButton;
     @FXML private Button refreshButton;
     @FXML private Button deleteButton;
     @FXML private Button backButton;
 
     private final StudentDAO studentDAO = new StudentDAO();
-    private ObservableList<Student> studentList = FXCollections.observableArrayList();
+    private final ProgrammingLanguageDAO languageDAO = new ProgrammingLanguageDAO();
+    private ObservableList<Student> allStudents = FXCollections.observableArrayList();
+    private ObservableList<Student> filteredStudents = FXCollections.observableArrayList();
 
     @FXML
     public void initialize() {
-        // Setup table columns
+        setupTableColumns();
+        setupSearchFields();
+        setupColumnWrapping();
+        loadStudents();
+    }
+
+    private void setupTableColumns() {
         fullNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
         academicStatusColumn.setCellValueFactory(new PropertyValueFactory<>("academicStatus"));
 
@@ -61,17 +83,60 @@ public class ViewStudentsController {
         );
 
         preferredRoleColumn.setCellValueFactory(new PropertyValueFactory<>("preferredRole"));
-
         commentsColumn.setCellValueFactory(new PropertyValueFactory<>("comments"));
 
         serviceFlagColumn.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getServiceFlagStatus())
         );
+    }
 
-        // Make columns wrap text
-        setupColumnWrapping();
+    private void setupSearchFields() {
+        ObservableList<String> academicStatuses = FXCollections.observableArrayList(
+                "Any Status", "Freshman", "Sophomore", "Junior", "Senior", "Graduate"
+        );
+        academicStatusSearchCombo.setItems(academicStatuses);
+        academicStatusSearchCombo.setValue("Any Status");
 
-        loadStudents();
+        List<ProgrammingLanguage> languages = languageDAO.getAllLanguages();
+        ObservableList<String> languageNames = FXCollections.observableArrayList("Any Language");
+        languageNames.addAll(languages.stream()
+                .map(ProgrammingLanguage::getLanguageName)
+                .collect(Collectors.toList()));
+        programmingLanguageSearchCombo.setItems(languageNames);
+        programmingLanguageSearchCombo.setValue("Any Language");
+
+        populateDatabaseSkillFilter();
+        populateProfessionalRoleFilter();
+    }
+
+    private void populateDatabaseSkillFilter() {
+        Set<String> uniqueDatabases = new HashSet<>();
+        List<Student> students = studentDAO.getAllStudents();
+
+        for (Student student : students) {
+            uniqueDatabases.addAll(student.getDatabasesKnown());
+        }
+
+        ObservableList<String> databases = FXCollections.observableArrayList("Any Database");
+        databases.addAll(uniqueDatabases.stream().sorted().collect(Collectors.toList()));
+        databaseSkillSearchCombo.setItems(databases);
+        databaseSkillSearchCombo.setValue("Any Database");
+    }
+
+    private void populateProfessionalRoleFilter() {
+        Set<String> uniqueRoles = new HashSet<>();
+        List<Student> students = studentDAO.getAllStudents();
+
+        for (Student student : students) {
+            if (student.getPreferredRole() != null && !student.getPreferredRole().trim().isEmpty()) {
+                uniqueRoles.add(student.getPreferredRole());
+            }
+        }
+
+        ObservableList<String> roles = FXCollections.observableArrayList("Any Role");
+        roles.addAll(uniqueRoles.stream().sorted().collect(Collectors.toList()));
+        professionalRoleSearchCombo.setItems(roles);
+        professionalRoleSearchCombo.setValue("Any Role");
     }
 
     private void setupColumnWrapping() {
@@ -101,11 +166,13 @@ public class ViewStudentsController {
     private void loadStudents() {
         try {
             List<Student> students = studentDAO.getAllStudents();
-            studentList.clear();
-            studentList.addAll(students);
-            studentsTableView.setItems(studentList);
+            allStudents.clear();
+            allStudents.addAll(students);
+            filteredStudents.clear();
+            filteredStudents.addAll(students);
+            studentsTableView.setItems(filteredStudents);
 
-            studentCountLabel.setText("Total Students: " + students.size());
+            updateStudentCount();
 
             if (students.isEmpty()) {
                 statusLabel.setText("No student profiles found. Create a profile to get started.");
@@ -121,8 +188,85 @@ public class ViewStudentsController {
     }
 
     @FXML
+    private void onSearchClick() {
+        String nameQuery = nameSearchField.getText().trim().toLowerCase();
+        String academicStatus = academicStatusSearchCombo.getValue();
+        String programmingLanguage = programmingLanguageSearchCombo.getValue();
+        String databaseSkill = databaseSkillSearchCombo.getValue();
+        String professionalRole = professionalRoleSearchCombo.getValue();
+
+        List<Student> results = new ArrayList<>(allStudents);
+
+        if (!nameQuery.isEmpty()) {
+            results = results.stream()
+                    .filter(s -> s.getFullName().toLowerCase().contains(nameQuery))
+                    .collect(Collectors.toList());
+        }
+
+        if (academicStatus != null && !academicStatus.equals("Any Status")) {
+            results = results.stream()
+                    .filter(s -> s.getAcademicStatus().equalsIgnoreCase(academicStatus))
+                    .collect(Collectors.toList());
+        }
+
+        if (programmingLanguage != null && !programmingLanguage.equals("Any Language")) {
+            results = results.stream()
+                    .filter(s -> s.getProgrammingLanguages().stream()
+                            .anyMatch(lang -> lang.equalsIgnoreCase(programmingLanguage)))
+                    .collect(Collectors.toList());
+        }
+
+        if (databaseSkill != null && !databaseSkill.equals("Any Database")) {
+            results = results.stream()
+                    .filter(s -> s.getDatabasesKnown().stream()
+                            .anyMatch(db -> db.equalsIgnoreCase(databaseSkill)))
+                    .collect(Collectors.toList());
+        }
+
+        if (professionalRole != null && !professionalRole.equals("Any Role")) {
+            results = results.stream()
+                    .filter(s -> s.getPreferredRole().equalsIgnoreCase(professionalRole))
+                    .collect(Collectors.toList());
+        }
+
+        filteredStudents.clear();
+        filteredStudents.addAll(results);
+        updateStudentCount();
+
+        showSuccess("Search completed. Found " + results.size() + " student(s).");
+    }
+
+    @FXML
+    private void onClearSearchClick() {
+        nameSearchField.clear();
+        academicStatusSearchCombo.setValue("Any Status");
+        programmingLanguageSearchCombo.setValue("Any Language");
+        databaseSkillSearchCombo.setValue("Any Database");
+        professionalRoleSearchCombo.setValue("Any Role");
+
+        filteredStudents.clear();
+        filteredStudents.addAll(allStudents);
+        updateStudentCount();
+        showSuccess("Search cleared. Showing all students.");
+    }
+
+    private void updateStudentCount() {
+        int count = filteredStudents.size();
+        int total = allStudents.size();
+
+        if (count == total) {
+            studentCountLabel.setText("Total Students: " + count);
+        } else {
+            studentCountLabel.setText("Showing " + count + " of " + total + " students");
+        }
+    }
+
+    @FXML
     private void onRefreshClick() {
         loadStudents();
+        populateDatabaseSkillFilter();
+        populateProfessionalRoleFilter();
+        onClearSearchClick();
         showSuccess("Student list refreshed.");
     }
 
@@ -138,15 +282,21 @@ public class ViewStudentsController {
         Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
         confirmAlert.setTitle("Delete Student");
         confirmAlert.setHeaderText("Delete " + selectedStudent.getFullName() + "?");
-        confirmAlert.setContentText("This action cannot be undone. Are you sure you want to delete this student profile?");
+        confirmAlert.setContentText("This action cannot be undone. Are you sure you want to permanently delete this student profile?");
 
         Optional<ButtonType> result = confirmAlert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             boolean success = studentDAO.deleteStudent(selectedStudent.getFullName());
 
             if (success) {
+                allStudents.remove(selectedStudent);
+                filteredStudents.remove(selectedStudent);
+                updateStudentCount();
+
+                populateDatabaseSkillFilter();
+                populateProfessionalRoleFilter();
+
                 showSuccess("Student profile deleted successfully.");
-                loadStudents();
             } else {
                 showError("Failed to delete student profile.");
             }
@@ -163,7 +313,6 @@ public class ViewStudentsController {
 
             Stage stage = (Stage) backButton.getScene().getWindow();
 
-            // Preserve window state
             boolean wasMaximized = stage.isMaximized();
             double currentWidth = stage.getWidth();
             double currentHeight = stage.getHeight();
@@ -172,7 +321,6 @@ public class ViewStudentsController {
             stage.setScene(scene);
             stage.setTitle("SpartanTrack - Student Management");
 
-            // Restore window state
             if (wasMaximized) {
                 stage.setMaximized(true);
             } else {

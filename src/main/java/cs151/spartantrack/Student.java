@@ -13,7 +13,6 @@ public class Student {
     private String jobDetails;
     private List<String> programmingLanguages;
 
-    // NEW FIELDS
     private List<String> databasesKnown;
     private String preferredRole;
     private String comments;
@@ -36,7 +35,6 @@ public class Student {
         this.isBlacklisted = isBlacklisted;
     }
 
-    // Getters
     public int getStudentId() { return studentId; }
     public String getFullName() { return fullName; }
     public String getAcademicStatus() { return academicStatus; }
@@ -49,7 +47,6 @@ public class Student {
     public boolean isWhitelisted() { return isWhitelisted; }
     public boolean isBlacklisted() { return isBlacklisted; }
 
-    // Setters
     public void setFullName(String fullName) { this.fullName = fullName; }
     public void setAcademicStatus(String academicStatus) { this.academicStatus = academicStatus; }
     public void setEmployed(boolean employed) { isEmployed = employed; }
@@ -65,7 +62,6 @@ public class Student {
     public void setWhitelisted(boolean whitelisted) { isWhitelisted = whitelisted; }
     public void setBlacklisted(boolean blacklisted) { isBlacklisted = blacklisted; }
 
-    // Validation methods
     public boolean validateFullName() {
         return fullName != null && !fullName.trim().isEmpty();
     }
@@ -85,7 +81,6 @@ public class Student {
         return validateFullName() && validateAcademicStatus() && validateJobDetails();
     }
 
-    // Display helper methods
     public String getEmploymentStatus() {
         return isEmployed ? "Employed" : "Not Employed";
     }

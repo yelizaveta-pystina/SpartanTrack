@@ -17,7 +17,6 @@ public class ProgrammingLanguageDAO {
     private final Gson gson = new Gson();
 
     public ProgrammingLanguageDAO() {
-        // Ensure data directory exists
         File dataDir = new File("data");
         if (!dataDir.exists()) {
             dataDir.mkdirs();

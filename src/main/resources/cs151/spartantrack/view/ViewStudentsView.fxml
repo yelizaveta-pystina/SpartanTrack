@@ -11,10 +11,59 @@
         <Insets bottom="30.0" left="30.0" right="30.0" top="30.0"/>
     </padding>
 
-    <Label text="View All Student Profiles"
+    <Label text="Search Student Profiles"
            style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #0055A2;"/>
 
-    <Label text="All students sorted alphabetically (A to Z, case insensitive)"
+    <VBox spacing="15.0" style="-fx-background-color: white; -fx-padding: 20; -fx-border-color: #ddd; -fx-border-radius: 5; -fx-background-radius: 5;">
+        <Label text="Search Criteria (5 filters - all case-insensitive)"
+               style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #0055A2;"/>
+
+        <GridPane hgap="15.0" vgap="10.0">
+            <Label text="Name:" GridPane.columnIndex="0" GridPane.rowIndex="0"
+                   style="-fx-font-size: 13px; -fx-font-weight: bold;"/>
+            <TextField fx:id="nameSearchField" promptText="Search by name (case-insensitive)..."
+                       GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="300.0"
+                       style="-fx-font-size: 12px;"/>
+
+            <Label text="Academic Status:" GridPane.columnIndex="0" GridPane.rowIndex="1"
+                   style="-fx-font-size: 13px; -fx-font-weight: bold;"/>
+            <ComboBox fx:id="academicStatusSearchCombo" promptText="Any Status"
+                      GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="300.0"
+                      style="-fx-font-size: 12px;"/>
+
+            <Label text="Programming Language:" GridPane.columnIndex="0" GridPane.rowIndex="2"
+                   style="-fx-font-size: 13px; -fx-font-weight: bold;"/>
+            <ComboBox fx:id="programmingLanguageSearchCombo" promptText="Any Language"
+                      GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="300.0"
+                      style="-fx-font-size: 12px;"/>
+
+            <Label text="Database Skill:" GridPane.columnIndex="0" GridPane.rowIndex="3"
+                   style="-fx-font-size: 13px; -fx-font-weight: bold;"/>
+            <ComboBox fx:id="databaseSkillSearchCombo" promptText="Any Database"
+                      GridPane.columnIndex="1" GridPane.rowIndex="3" prefWidth="300.0"
+                      style="-fx-font-size: 12px;"/>
+
+            <Label text="Professional Role:" GridPane.columnIndex="0" GridPane.rowIndex="4"
+                   style="-fx-font-size: 13px; -fx-font-weight: bold;"/>
+            <ComboBox fx:id="professionalRoleSearchCombo" promptText="Any Role"
+                      GridPane.columnIndex="1" GridPane.rowIndex="4" prefWidth="300.0"
+                      style="-fx-font-size: 12px;"/>
+        </GridPane>
+
+        <HBox spacing="10.0">
+            <Button fx:id="searchButton"
+                    text="Search"
+                    onAction="#onSearchClick"
+                    style="-fx-background-color: #0055A2; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10px 20px;"/>
+
+            <Button fx:id="clearSearchButton"
+                    text="Clear Search"
+                    onAction="#onClearSearchClick"
+                    style="-fx-background-color: #E5A823; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10px 20px;"/>
+        </HBox>
+    </VBox>
+
+    <Label text="Search Results (sorted alphabetically A-Z, case-insensitive)"
            style="-fx-font-size: 12px; -fx-text-fill: #666; -fx-font-style: italic;"/>
 
     <VBox spacing="10.0" VBox.vgrow="ALWAYS">

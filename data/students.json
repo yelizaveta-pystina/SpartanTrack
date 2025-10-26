@@ -49,5 +49,37 @@
     "comments": "",
     "isWhitelisted": false,
     "isBlacklisted": true
+  },
+  {
+    "fullName": "Troy Quach",
+    "academicStatus": "Senior",
+    "isEmployed": true,
+    "jobDetails": "Intern",
+    "programmingLanguages": [
+      "Rust"
+    ],
+    "databasesKnown": [
+      "Cassandra"
+    ],
+    "preferredRole": "Backend Developer",
+    "comments": "",
+    "isWhitelisted": true,
+    "isBlacklisted": false
+  },
+  {
+    "fullName": "Troy Paulus Asia",
+    "academicStatus": "Senior",
+    "isEmployed": true,
+    "jobDetails": "Research Assistant",
+    "programmingLanguages": [
+      "Java"
+    ],
+    "databasesKnown": [
+      "Oracle"
+    ],
+    "preferredRole": "Web Developer",
+    "comments": "",
+    "isWhitelisted": true,
+    "isBlacklisted": false
   }
 ]
