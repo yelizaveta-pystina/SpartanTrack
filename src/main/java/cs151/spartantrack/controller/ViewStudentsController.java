@@ -48,6 +48,7 @@ public class ViewStudentsController {
     @FXML private Button searchButton;
     @FXML private Button clearSearchButton;
     @FXML private Button refreshButton;
+    @FXML private Button editButton;
     @FXML private Button deleteButton;
     @FXML private Button backButton;
 
@@ -300,6 +301,48 @@ public class ViewStudentsController {
             } else {
                 showError("Failed to delete student profile.");
             }
+        }
+    }
+
+    @FXML
+    private void onEditClick() {
+        Student selectedStudent = studentsTableView.getSelectionModel().getSelectedItem();
+
+        if (selectedStudent == null) {
+            showError("Please select a student to edit.");
+            return;
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    Main.class.getResource("/cs151/spartantrack/view/EditStudentView.fxml")
+            );
+            Parent root = loader.load();
+
+            // Get the controller and pass the student data
+            EditStudentController controller = loader.getController();
+            controller.setStudent(selectedStudent);
+
+            Stage stage = (Stage) studentsTableView.getScene().getWindow();
+
+            boolean wasMaximized = stage.isMaximized();
+            double currentWidth = stage.getWidth();
+            double currentHeight = stage.getHeight();
+
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("SpartanTrack - Edit Student Profile");
+
+            if (wasMaximized) {
+                stage.setMaximized(true);
+            } else {
+                stage.setWidth(currentWidth);
+                stage.setHeight(currentHeight);
+            }
+
+        } catch (IOException e) {
+            showError("Error navigating to edit page: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 

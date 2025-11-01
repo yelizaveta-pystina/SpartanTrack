@@ -68,7 +68,7 @@
   },
   {
     "fullName": "Troy Paulus Asia",
-    "academicStatus": "Senior",
+    "academicStatus": "Junior",
     "isEmployed": true,
     "jobDetails": "Research Assistant",
     "programmingLanguages": [
@@ -78,7 +78,7 @@
       "Oracle"
     ],
     "preferredRole": "Web Developer",
-    "comments": "",
+    "comments": "Nice Experience",
     "isWhitelisted": true,
     "isBlacklisted": false
   }
