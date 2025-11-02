@@ -1,5 +1,5 @@
 # SpartanTrack
-**Version:** 0.6
+**Version:** 0.7
 
 
 A Student Management System built with JavaFX for tracking student profiles and programming language skills.
@@ -16,6 +16,7 @@ A Student Management System built with JavaFX for tracking student profiles and 
 **Persistent Storage**: All data saved in JSON format
 **Search Student Profiles**: Filter students by 5 different criteria with case-insensitive matching
 **Delete Students**: Remove student profiles with confirmation dialog
+**Edit Student Profiles**: Edit already made profiles
 
 
 
