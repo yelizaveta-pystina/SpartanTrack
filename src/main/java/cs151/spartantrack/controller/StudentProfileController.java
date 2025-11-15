@@ -30,7 +30,6 @@ public class StudentProfileController {
     @FXML private ListView<String> languagesListView;
     @FXML private ListView<String> databasesListView;
     @FXML private ComboBox<String> preferredRoleComboBox;
-    @FXML private TextArea commentsTextArea;
     @FXML private CheckBox whitelistCheckBox;
     @FXML private CheckBox blacklistCheckBox;
     @FXML private Label statusLabel;
@@ -130,7 +129,6 @@ public class StudentProfileController {
             List<String> selectedLanguages = new ArrayList<>(languagesListView.getSelectionModel().getSelectedItems());
             List<String> selectedDatabases = new ArrayList<>(databasesListView.getSelectionModel().getSelectedItems());
             String preferredRole = preferredRoleComboBox.getValue();
-            String comments = commentsTextArea.getText().trim();
             boolean isWhitelisted = whitelistCheckBox.isSelected();
             boolean isBlacklisted = blacklistCheckBox.isSelected();
 
@@ -162,7 +160,7 @@ public class StudentProfileController {
             // Create student object
             Student newStudent = new Student(fullName, academicStatus, isEmployed, jobDetails,
                     selectedLanguages, selectedDatabases, preferredRole,
-                    comments, isWhitelisted, isBlacklisted);
+                    new ArrayList<>(), isWhitelisted, isBlacklisted);
 
             // Check if student already exists
             if (studentDAO.studentExists(fullName)) {
@@ -228,7 +226,6 @@ public class StudentProfileController {
         languagesListView.getSelectionModel().clearSelection();
         databasesListView.getSelectionModel().clearSelection();
         preferredRoleComboBox.setValue(null);
-        commentsTextArea.clear();
         whitelistCheckBox.setSelected(false);
         blacklistCheckBox.setSelected(false);
         fullNameField.requestFocus();

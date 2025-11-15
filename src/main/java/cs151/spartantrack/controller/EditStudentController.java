@@ -29,7 +29,6 @@ public class EditStudentController {
     @FXML private ListView<String> languagesListView;
     @FXML private ListView<String> databasesListView;
     @FXML private ComboBox<String> preferredRoleComboBox;
-    @FXML private TextArea commentsTextArea;
     @FXML private CheckBox whitelistCheckBox;
     @FXML private CheckBox blacklistCheckBox;
     @FXML private Label statusLabel;
@@ -39,6 +38,7 @@ public class EditStudentController {
     private final StudentDAO studentDAO = new StudentDAO();
     private final ProgrammingLanguageDAO languageDAO = new ProgrammingLanguageDAO();
     private String originalStudentName;
+    private Student currentStudent;
 
     public void setStudent(Student student) {
         if (student == null) {
@@ -46,6 +46,7 @@ public class EditStudentController {
             return;
         }
 
+        this.currentStudent = student;
         originalStudentName = student.getFullName();
 
         // Populate all fields with student data
@@ -83,7 +84,6 @@ public class EditStudentController {
         }
 
         preferredRoleComboBox.setValue(student.getPreferredRole());
-        commentsTextArea.setText(student.getComments());
         whitelistCheckBox.setSelected(student.isWhitelisted());
         blacklistCheckBox.setSelected(student.isBlacklisted());
     }
@@ -176,7 +176,6 @@ public class EditStudentController {
             List<String> selectedLanguages = new ArrayList<>(languagesListView.getSelectionModel().getSelectedItems());
             List<String> selectedDatabases = new ArrayList<>(databasesListView.getSelectionModel().getSelectedItems());
             String preferredRole = preferredRoleComboBox.getValue();
-            String comments = commentsTextArea.getText().trim();
             boolean isWhitelisted = whitelistCheckBox.isSelected();
             boolean isBlacklisted = blacklistCheckBox.isSelected();
 
@@ -208,7 +207,7 @@ public class EditStudentController {
             // Create updated student object
             Student updatedStudent = new Student(fullName, academicStatus, isEmployed, jobDetails,
                     selectedLanguages, selectedDatabases, preferredRole,
-                    comments, isWhitelisted, isBlacklisted);
+                    currentStudent.getComments(), isWhitelisted, isBlacklisted);
 
             // Update in database
             boolean success = studentDAO.updateStudent(originalStudentName, updatedStudent);

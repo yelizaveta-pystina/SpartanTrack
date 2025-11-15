@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -25,7 +26,7 @@ public class StudentDAO {
         List<String> programmingLanguages;
         List<String> databasesKnown;
         String preferredRole;
-        String comments;
+        List<CommentData> comments;
         boolean isWhitelisted;
         boolean isBlacklisted;
 
@@ -37,9 +38,26 @@ public class StudentDAO {
             this.programmingLanguages = student.getProgrammingLanguages();
             this.databasesKnown = student.getDatabasesKnown();
             this.preferredRole = student.getPreferredRole();
-            this.comments = student.getComments();
+            this.comments = new ArrayList<>();
+            for (Comment comment : student.getComments()){
+                this.comments.add(new CommentData(comment));
+            }
             this.isWhitelisted = student.isWhitelisted();
             this.isBlacklisted = student.isBlacklisted();
+        }
+
+        private static class CommentData{
+            String commentText;
+            String dateCreated;
+
+            CommentData(Comment comment) {
+                this.commentText = comment.getCommentText();
+                this.dateCreated = comment.getDateCreated().toString();
+            }
+
+            Comment toComment(){
+                return new Comment(commentText, LocalDate.parse(dateCreated));
+            }
         }
 
         Student toStudent() {
@@ -49,7 +67,13 @@ public class StudentDAO {
             List<String> safeLanguages = programmingLanguages != null ? programmingLanguages : new ArrayList<>();
             List<String> safeDatabases = databasesKnown != null ? databasesKnown : new ArrayList<>();
             String safeRole = preferredRole != null ? preferredRole : "";
-            String safeComments = comments != null ? comments : "";
+
+            List<Comment> safeComments = new ArrayList<>();
+            if (comments != null) {
+                for (CommentData data : comments) {
+                    safeComments.add(data.toComment());
+                }
+            }
 
             return new Student(safeName, safeStatus, isEmployed, safeJobDetails, safeLanguages,
                     safeDatabases, safeRole, safeComments, isWhitelisted, isBlacklisted);

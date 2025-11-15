@@ -94,6 +94,11 @@
                 onAction="#onRefreshClick"
                 style="-fx-background-color: #0055A2; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10px 20px;"/>
 
+        <Button fx:id="viewCommentsButton"
+                text="View/Add Comments"
+                onAction="#onViewCommentsClick"
+                style="-fx-background-color: #00AA00; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10px 20px;"/>
+
         <Button fx:id="editButton"
                 text="Edit Selected"
                 onAction="#onEditClick"

@@ -84,7 +84,10 @@ public class ViewStudentsController {
         );
 
         preferredRoleColumn.setCellValueFactory(new PropertyValueFactory<>("preferredRole"));
-        commentsColumn.setCellValueFactory(new PropertyValueFactory<>("comments"));
+
+        commentsColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getCommentsString())
+        );
 
         serviceFlagColumn.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getServiceFlagStatus())
@@ -373,6 +376,48 @@ public class ViewStudentsController {
 
         } catch (IOException e) {
             showError("Error navigating back to home: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void onViewCommentsClick() {
+        Student selectedStudent = studentsTableView.getSelectionModel().getSelectedItem();
+
+        if (selectedStudent == null) {
+            showError("Please select a student to view comments.");
+            return;
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    Main.class.getResource("/cs151/spartantrack/view/StudentCommentsView.fxml")
+            );
+            Parent root = loader.load();
+
+            // Get the controller and pass the student data
+            StudentCommentsController controller = loader.getController();
+            controller.setStudent(selectedStudent);
+
+            Stage stage = (Stage) studentsTableView.getScene().getWindow();
+
+            boolean wasMaximized = stage.isMaximized();
+            double currentWidth = stage.getWidth();
+            double currentHeight = stage.getHeight();
+
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("SpartanTrack - Student Comments");
+
+            if (wasMaximized) {
+                stage.setMaximized(true);
+            } else {
+                stage.setWidth(currentWidth);
+                stage.setHeight(currentHeight);
+            }
+
+        } catch (IOException e) {
+            showError("Error navigating to comments page: " + e.getMessage());
             e.printStackTrace();
         }
     }

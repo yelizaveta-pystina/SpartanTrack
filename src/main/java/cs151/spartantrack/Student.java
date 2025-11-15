@@ -15,13 +15,13 @@ public class Student {
 
     private List<String> databasesKnown;
     private String preferredRole;
-    private String comments;
+    private List<Comment> comments;
     private boolean isWhitelisted;
     private boolean isBlacklisted;
 
     public Student(String fullName, String academicStatus, boolean isEmployed, String jobDetails,
                    List<String> programmingLanguages, List<String> databasesKnown,
-                   String preferredRole, String comments, boolean isWhitelisted, boolean isBlacklisted) {
+                   String preferredRole, List<Comment> comments, boolean isWhitelisted, boolean isBlacklisted) {
         this.studentId = idCounter++;
         this.fullName = fullName;
         this.academicStatus = academicStatus;
@@ -30,7 +30,7 @@ public class Student {
         this.programmingLanguages = programmingLanguages != null ? new ArrayList<>(programmingLanguages) : new ArrayList<>();
         this.databasesKnown = databasesKnown != null ? new ArrayList<>(databasesKnown) : new ArrayList<>();
         this.preferredRole = preferredRole != null ? preferredRole : "";
-        this.comments = comments != null ? comments : "";
+        this.comments = comments != null ? new ArrayList<>(comments) : new ArrayList<>();
         this.isWhitelisted = isWhitelisted;
         this.isBlacklisted = isBlacklisted;
     }
@@ -43,7 +43,7 @@ public class Student {
     public List<String> getProgrammingLanguages() { return new ArrayList<>(programmingLanguages); }
     public List<String> getDatabasesKnown() { return new ArrayList<>(databasesKnown); }
     public String getPreferredRole() { return preferredRole; }
-    public String getComments() { return comments; }
+    public List<Comment> getComments() { return new ArrayList<>(comments); }
     public boolean isWhitelisted() { return isWhitelisted; }
     public boolean isBlacklisted() { return isBlacklisted; }
 
@@ -58,9 +58,15 @@ public class Student {
         this.databasesKnown = databasesKnown != null ? new ArrayList<>(databasesKnown) : new ArrayList<>();
     }
     public void setPreferredRole(String preferredRole) { this.preferredRole = preferredRole; }
-    public void setComments(String comments) { this.comments = comments; }
+    public void setComments(List<Comment> comments) { this.comments = comments != null ? new ArrayList<>(comments) : new ArrayList<>(); }
     public void setWhitelisted(boolean whitelisted) { isWhitelisted = whitelisted; }
     public void setBlacklisted(boolean blacklisted) { isBlacklisted = blacklisted; }
+
+    public void addComment(Comment comment) {
+        if (comment != null) {
+            this.comments.add(comment);
+        }
+    }
 
     public boolean validateFullName() {
         return fullName != null && !fullName.trim().isEmpty();
@@ -93,6 +99,13 @@ public class Student {
         return databasesKnown.isEmpty() ? "None" : String.join(", ", databasesKnown);
     }
 
+    public String getCommentsString() {
+        if (comments.isEmpty()) {
+            return "No comments";
+        }
+        return comments.size() + " comment(s)";
+    }
+
     public String getServiceFlagStatus() {
         if (isWhitelisted) return "Whitelisted";
         if (isBlacklisted) return "Blacklisted";
@@ -110,7 +123,7 @@ public class Student {
                 ", programmingLanguages=" + programmingLanguages +
                 ", databasesKnown=" + databasesKnown +
                 ", preferredRole='" + preferredRole + '\'' +
-                ", comments='" + comments + '\'' +
+                ", comments='" + comments.size() + " entries" +
                 ", isWhitelisted=" + isWhitelisted +
                 ", isBlacklisted=" + isBlacklisted +
                 '}';

@@ -16,7 +16,12 @@
       "SQLite"
     ],
     "preferredRole": "Full Stack Developer",
-    "comments": "Well versed in many languages and databases",
+    "comments": [
+      {
+        "commentText": "Well versed in many languages and databases",
+        "dateCreated": "2025-11-15"
+      }
+    ],
     "isWhitelisted": true,
     "isBlacklisted": false
   },
@@ -30,7 +35,7 @@
     ],
     "databasesKnown": [],
     "preferredRole": "Security Engineer",
-    "comments": "",
+    "comments": [],
     "isWhitelisted": true,
     "isBlacklisted": false
   },
@@ -46,7 +51,7 @@
       "Redis"
     ],
     "preferredRole": "Software Engineer",
-    "comments": "",
+    "comments": [],
     "isWhitelisted": false,
     "isBlacklisted": true
   },
@@ -62,7 +67,12 @@
       "Cassandra"
     ],
     "preferredRole": "Backend Developer",
-    "comments": "",
+    "comments": [
+      {
+        "commentText": "Nice Experience",
+        "dateCreated": "2025-11-15"
+      }
+    ],
     "isWhitelisted": true,
     "isBlacklisted": false
   },
@@ -78,7 +88,7 @@
       "Oracle"
     ],
     "preferredRole": "Web Developer",
-    "comments": "Nice Experience",
+    "comments": [],
     "isWhitelisted": true,
     "isBlacklisted": false
   }

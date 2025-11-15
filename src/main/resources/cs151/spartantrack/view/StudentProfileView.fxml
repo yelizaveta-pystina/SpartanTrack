@@ -100,24 +100,6 @@
             </VBox>
         </VBox>
 
-        <!-- Faculty Evaluation Section -->
-        <VBox spacing="15.0" style="-fx-background-color: white; -fx-padding: 20; -fx-border-color: #ddd; -fx-border-radius: 5; -fx-background-radius: 5;">
-            <Label text="Faculty Evaluation"
-                   style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #0055A2;"/>
-
-            <!-- Comments/Journal Entries -->
-            <VBox spacing="5.0">
-                <Label text="Comments/ Journal Entries" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
-                <Label text="Enter faculty comments about the student" style="-fx-font-size: 11px; -fx-text-fill: #666;"/>
-                <TextArea fx:id="commentsTextArea"
-                          promptText="Enter faculty comments about the student"
-                          prefRowCount="4"
-                          prefWidth="400.0"
-                          wrapText="true"
-                          style="-fx-font-size: 13px;"/>
-            </VBox>
-        </VBox>
-
         <!-- Future Services Flags Section -->
         <VBox spacing="15.0" style="-fx-background-color: white; -fx-padding: 20; -fx-border-color: #ddd; -fx-border-radius: 5; -fx-background-radius: 5;">
             <Label text="Future Services Flags"
@@ -131,6 +113,15 @@
                           text="Blacklist (Not eligible for future services)"
                           style="-fx-font-size: 13px;"/>
             </HBox>
+        </VBox>
+
+        <!-- Info Note about Comments -->
+        <VBox spacing="5.0" style="-fx-background-color: #E8F4FD; -fx-padding: 15; -fx-border-color: #0055A2; -fx-border-radius: 5; -fx-background-radius: 5;">
+            <Label text="Faculty Comments / Journal Entries"
+                   style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #0055A2;"/>
+            <Label text="Comments can be added and managed after saving the student profile. Use 'View All Student Profiles' → Select Student → 'View/Add Comments' button."
+                   wrapText="true"
+                   style="-fx-font-size: 12px; -fx-text-fill: #333;"/>
         </VBox>
 
         <!-- Status Message -->

@@ -100,24 +100,6 @@
             </VBox>
         </VBox>
 
-        <!-- Faculty Evaluation Section -->
-        <VBox spacing="15.0" style="-fx-background-color: white; -fx-padding: 20; -fx-border-color: #ddd; -fx-border-radius: 5; -fx-background-radius: 5;">
-            <Label text="Faculty Evaluation"
-                   style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #0055A2;"/>
-
-            <!-- Comments/Journal Entries -->
-            <VBox spacing="5.0">
-                <Label text="Comments/ Journal Entries" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
-                <Label text="Enter faculty comments about the student" style="-fx-font-size: 11px; -fx-text-fill: #666;"/>
-                <TextArea fx:id="commentsTextArea"
-                          promptText="Enter faculty comments about the student"
-                          prefRowCount="4"
-                          prefWidth="400.0"
-                          wrapText="true"
-                          style="-fx-font-size: 13px;"/>
-            </VBox>
-        </VBox>
-
         <!-- Future Services Flags Section -->
         <VBox spacing="15.0" style="-fx-background-color: white; -fx-padding: 20; -fx-border-color: #ddd; -fx-border-radius: 5; -fx-background-radius: 5;">
             <Label text="Future Services Flags"
@@ -131,6 +113,13 @@
                           text="Blacklist (Not eligible for future services)"
                           style="-fx-font-size: 13px;"/>
             </HBox>
+        </VBox>
+
+        <!-- Note about Comments -->
+        <VBox spacing="8" style="-fx-background-color: #e3f2fd; -fx-padding: 15; -fx-background-radius: 5;">
+            <Label text="Note:" style="-fx-font-weight: bold; -fx-font-size: 13px; -fx-text-fill: #1976d2;"/>
+            <Label text="To view or add comments for this student, use the 'View Comments' button from the View Students page."
+                   wrapText="true" style="-fx-font-size: 12px; -fx-text-fill: #1976d2;"/>
         </VBox>
 
         <!-- Status Message -->
