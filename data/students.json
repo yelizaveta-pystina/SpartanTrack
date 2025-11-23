@@ -1,0 +1,166 @@
+[
+  {
+    "fullName": "Sarah Johnson",
+    "academicStatus": "Graduate",
+    "isEmployed": true,
+    "jobDetails": "Senior Software Engineer at Tech Innovations Inc.",
+    "programmingLanguages": [
+      "Java",
+      "C#",
+      "Rust"
+    ],
+    "databasesKnown": [
+      "MySQL",
+      "PostgreSQL",
+      "MongoDB",
+      "Redis"
+    ],
+    "preferredRole": "Full Stack Developer",
+    "comments": [
+      {
+        "commentText": "Sarah demonstrates exceptional technical leadership and mentoring abilities. She has consistently contributed to multiple open-source projects and actively participates in local tech community events. Her strong foundation in both backend and frontend technologies makes her an ideal candidate for advanced full-stack positions.",
+        "dateCreated": "2025-11-15"
+      },
+      {
+        "commentText": "Completed an impressive capstone project involving microservices architecture with Docker and Kubernetes. Sarah showed excellent problem-solving skills and an ability to work effectively in cross-functional teams. She has a proven track record of delivering high-quality code under tight deadlines.",
+        "dateCreated": "2025-10-20"
+      }
+    ],
+    "isWhitelisted": true,
+    "isBlacklisted": false
+  },
+  {
+    "fullName": "Michael Chen",
+    "academicStatus": "Senior",
+    "isEmployed": true,
+    "jobDetails": "Software Development Intern at CloudTech Solutions",
+    "programmingLanguages": [
+      "Java",
+      "Rust"
+    ],
+    "databasesKnown": [
+      "PostgreSQL",
+      "Cassandra"
+    ],
+    "preferredRole": "Backend Developer",
+    "comments": [
+      {
+        "commentText": "Michael has shown remarkable growth in backend development throughout his academic career. He successfully implemented a distributed caching system during his internship that improved application performance by forty percent. His understanding of database optimization and scalability patterns is exceptional for his experience level.",
+        "dateCreated": "2025-11-10"
+      },
+      {
+        "commentText": "Demonstrated strong analytical thinking during complex algorithm design challenges. Michael consistently produces well-documented, maintainable code and actively seeks feedback to improve his development practices. His enthusiasm for learning new technologies and frameworks is truly commendable and sets him apart.",
+        "dateCreated": "2025-09-28"
+      }
+    ],
+    "isWhitelisted": true,
+    "isBlacklisted": false
+  },
+  {
+    "fullName": "Emily Rodriguez",
+    "academicStatus": "Junior",
+    "isEmployed": true,
+    "jobDetails": "Web Development Intern at Creative Digital Agency",
+    "programmingLanguages": [
+      "Java",
+      "C#"
+    ],
+    "databasesKnown": [
+      "MySQL",
+      "MongoDB",
+      "SQLite"
+    ],
+    "preferredRole": "Web Developer",
+    "comments": [
+      {
+        "commentText": "Emily exhibits outstanding creativity and technical proficiency in web development. She has delivered several responsive web applications with excellent user experience design. Her attention to accessibility standards and cross-browser compatibility demonstrates professional-level commitment to quality and inclusive design principles.",
+        "dateCreated": "2025-11-12"
+      },
+      {
+        "commentText": "Successfully completed a challenging e-commerce platform project incorporating payment gateway integration and inventory management systems. Emily demonstrates excellent communication skills when collaborating with designers and project managers. Her ability to translate business requirements into technical solutions is impressive.",
+        "dateCreated": "2025-10-05"
+      }
+    ],
+    "isWhitelisted": true,
+    "isBlacklisted": false
+  },
+  {
+    "fullName": "David Thompson",
+    "academicStatus": "Sophomore",
+    "isEmployed": false,
+    "jobDetails": "",
+    "programmingLanguages": [
+      "Java"
+    ],
+    "databasesKnown": [
+      "MySQL"
+    ],
+    "preferredRole": "Software Engineer",
+    "comments": [
+      {
+        "commentText": "David has shown concerning patterns of unprofessional behavior during team projects, including repeated failure to meet deadlines and inadequate communication with team members. Multiple instructors have reported issues with plagiarism in submitted assignments. His lack of accountability and unwillingness to accept constructive criticism raises serious concerns about workplace readiness.",
+        "dateCreated": "2025-11-08"
+      },
+      {
+        "commentText": "Received multiple academic integrity violations for unauthorized collaboration on individual assignments. David demonstrates minimal effort in learning fundamental programming concepts and frequently submits incomplete work. His attitude toward coursework and disregard for academic policies make him unsuitable for professional recommendations at this time.",
+        "dateCreated": "2025-10-15"
+      }
+    ],
+    "isWhitelisted": false,
+    "isBlacklisted": true
+  },
+  {
+    "fullName": "Jessica Martinez",
+    "academicStatus": "Senior",
+    "isEmployed": false,
+    "jobDetails": "",
+    "programmingLanguages": [
+      "C#",
+      "Rust"
+    ],
+    "databasesKnown": [
+      "Oracle",
+      "Redis"
+    ],
+    "preferredRole": "Database Administrator",
+    "comments": [
+      {
+        "commentText": "Jessica has exhibited problematic interpersonal behavior that disrupts collaborative learning environments. She has been involved in several incidents of creating hostile team dynamics and refusing to participate constructively in group discussions. Her technical skills are adequate but her inability to work professionally with others is a significant concern.",
+        "dateCreated": "2025-11-05"
+      },
+      {
+        "commentText": "Demonstrated consistent disrespect toward faculty members and teaching assistants through inappropriate email communications and classroom disruptions. Jessica failed to complete mandatory ethics training and has shown no improvement despite multiple counseling sessions. Professional references cannot be provided due to behavioral and ethical concerns.",
+        "dateCreated": "2025-09-22"
+      }
+    ],
+    "isWhitelisted": false,
+    "isBlacklisted": true
+  },
+  {
+    "fullName": "Robert Kim",
+    "academicStatus": "Graduate",
+    "isEmployed": true,
+    "jobDetails": "Quality Assurance Engineer at DataSystems Corp",
+    "programmingLanguages": [
+      "Java",
+      "Rust"
+    ],
+    "databasesKnown": [
+      "PostgreSQL",
+      "Cassandra"
+    ],
+    "preferredRole": "QA Engineer",
+    "comments": [
+      {
+        "commentText": "Robert has a troubling history of misrepresenting his contributions to team projects and taking credit for others' work. Multiple students have filed formal complaints about his dishonest practices. His technical knowledge is superficial and he has shown an unwillingness to engage deeply with complex material or accept responsibility for mistakes.",
+        "dateCreated": "2025-11-01"
+      },
+      {
+        "commentText": "Failed to maintain professional standards during his internship placement, resulting in early termination by the employer. Robert provided false information on his resume and during interviews. His lack of integrity and poor work ethic make him unsuitable for professional recommendations or future employment opportunities through university programs.",
+        "dateCreated": "2025-10-10"
+      }
+    ],
+    "isWhitelisted": false,
+    "isBlacklisted": true
+  }
+]

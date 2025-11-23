@@ -1,0 +1,28 @@
+# Compiled class files
+*.class
+target/
+*.jar
+*.war
+*.ear
+
+# IntelliJ IDEA files
+# Keep some essential config files, ignore user-specific ones
+.idea/*
+!.idea/compiler.xml
+!.idea/encodings.xml
+!.idea/misc.xml
+!.idea/vcs.xml
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/usage.statistics.xml
+.idea/dictionaries
+.idea/shelf
+*.iws
+
+# MacOS
+.DS_Store
+
+# Maven
+.mvn/
+mvnw
+mvnw.cmd
